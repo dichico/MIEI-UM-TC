@@ -10,11 +10,11 @@ salt = os.urandom(16)
 
 # derivar a chave
 kdf = PBKDF2HMAC(
-     algorithm=hashes.SHA256(),
-     length=32,
-     salt=salt,
-     iterations=100000,
-     backend=backend
+    algorithm=hashes.SHA256(),
+    length=32,
+    salt=salt,
+    iterations=100000,
+    backend=backend
 )
 
 try:
