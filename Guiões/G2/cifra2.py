@@ -1,11 +1,13 @@
 import os
 import getpass
+import base64
+
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.backends import default_backend
 from cryptography.fernet import Fernet
-backend = default_backend()
 
+backend = default_backend()
 salt = os.urandom(16)
 
 # derivar a chave
@@ -30,6 +32,7 @@ texto = textofile.read()
 textofile.close()
 
 # cifrar
+key = base64.urlsafe_b64encode(key)
 f = Fernet(key)
 cifra = f.encrypt(texto)
 
@@ -38,7 +41,7 @@ fileencrypt = open('cifrado.txt', 'wb')
 fileencrypt.write(cifra)
 fileencrypt.close()
 
-kdf = PBKDF2HMAC(
+""" kdf = PBKDF2HMAC(
      algorithm=hashes.SHA256(),
      length=32,
      salt=salt,
@@ -46,4 +49,4 @@ kdf = PBKDF2HMAC(
      backend=backend
 )
 
-kdf.verify(password, key)
+kdf.verify(password, key) """
