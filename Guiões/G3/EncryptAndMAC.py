@@ -7,6 +7,7 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes, hmac
 
+# Obter as chaves Crypt e MAC
 salt = os.urandom(16)
 nonce = os.urandom(16)
 
