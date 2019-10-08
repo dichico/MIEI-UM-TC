@@ -56,6 +56,7 @@ file = open('salt.key', 'rb')
 salt2 = file.read()
 file.close()
 
+# Criar o kd
 kdf2 = PBKDF2HMAC(
     algorithm=hashes.SHA256(),
     length=32,
@@ -64,6 +65,7 @@ kdf2 = PBKDF2HMAC(
     backend=backend
 )
 
+# Perguntar novamente a password para se poder decifrar o texto
 try:
     password2 = getpass.getpass().encode()
 except Exception as error:
@@ -71,13 +73,14 @@ except Exception as error:
 
 key2 = kdf2.derive(password2)
 
-# buscar texto cifrado
+# Ler texto cifrado
 filecifrado = open('cifrado.txt', 'rb')
 textocifrado = filecifrado.read()
 filecifrado.close()
 
-# decrypt com a chave do ficheiro
+# Decifrar o texto final
 key2 = base64.urlsafe_b64encode(key2)
 f2 = Fernet(key2)
 final = f2.decrypt(textocifrado)
+
 print(final)

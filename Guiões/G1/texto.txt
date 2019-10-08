@@ -1,1 +1,1 @@
-o texto a ser cifrado pelo programa.
+O texto a ser cifrado pelo programa.
