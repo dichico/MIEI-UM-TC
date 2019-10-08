@@ -7,10 +7,17 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.backends import default_backend
 from cryptography.fernet import Fernet
 
+# FASE 1 - Encriptar
+
 backend = default_backend()
 salt = os.urandom(16)
 
-# criar o kdf
+# Guardar o Salt gerado
+file = open('salt.key', 'wb')
+file.write(salt)
+file.close()
+
+# Criar o kdf
 kdf = PBKDF2HMAC(
     algorithm=hashes.SHA256(),
     length=32,
@@ -19,6 +26,7 @@ kdf = PBKDF2HMAC(
     backend=backend
 )
 
+# Perguntar/Guardar a Passphrase
 try:
     password = getpass.getpass().encode()
 except Exception as error:
@@ -26,46 +34,42 @@ except Exception as error:
 
 key = kdf.derive(password)
 
-# só a guardar a chave derivada
-file = open('chave.key', 'wb')
-file.write(key)
-file.close()
-
-# abrir o ficheiro a cifrar
+# Abrir ficheiro texto que se quer cifrar
 textofile = open('texto.txt', 'rb')
 texto = textofile.read()
 textofile.close()
 
-# cifrar
+# Criar o texto
 key = base64.urlsafe_b64encode(key)
 f = Fernet(key)
 cifra = f.encrypt(texto)
 
-# criar ficheiro com o texto cifrado
+# Criar o ficheiro com texto cifrado
 fileencrypt = open('cifrado.txt', 'wb')
 fileencrypt.write(cifra)
 fileencrypt.close()
 
-# ------
-# buscar chave
-file = open('chave.key', 'rb')
-chave = file.read()
+# FASE 2 -Desencriptar
+
+# Buscar o Salt
+file = open('salt.key', 'rb')
+salt2 = file.read()
 file.close()
 
 kdf2 = PBKDF2HMAC(
     algorithm=hashes.SHA256(),
     length=32,
-    salt=salt,
+    salt=salt2,
     iterations=100000,
     backend=backend
 )
 
 try:
-    password = getpass.getpass().encode()
+    password2 = getpass.getpass().encode()
 except Exception as error:
     print("Erro na password", error)
 
-kdf2.verify(password, chave)
+key2 = kdf2.derive(password2)
 
 # buscar texto cifrado
 filecifrado = open('cifrado.txt', 'rb')
@@ -73,7 +77,7 @@ textocifrado = filecifrado.read()
 filecifrado.close()
 
 # decrypt com a chave do ficheiro
-chave = base64.urlsafe_b64encode(chave)
-f2 = Fernet(chave)
+key2 = base64.urlsafe_b64encode(key2)
+f2 = Fernet(key2)
 final = f2.decrypt(textocifrado)
 print(final)
