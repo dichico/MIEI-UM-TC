@@ -9,7 +9,8 @@ O objetivo deste guião prático é essencialmente compreender como funciona est
 
 ## Resolução do Guião
 
-**Para exercitar este método da biblioteca ```cryptography```, o grupo desenvolveu um ficheiro de texto com o texto a cifrar, seguindo após isso o seguinte pensamento:**
+**Para começar a resolução do trabalho proposto, o grupo desenvolveu um ficheiro de texto com a mensagem a cifrar, seguindo o seguinte pensamento:**
+
 1. Criação de uma chave ```Fernet``` codificada que é depois guardada num ficheiro.
 
 Esta chave ```Fernet``` deve ser mantida em segredo, dado que é através dela que o texto é cifrado e posteriormente decifrado. 
