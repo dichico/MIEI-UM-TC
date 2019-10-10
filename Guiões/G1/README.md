@@ -1,6 +1,27 @@
-# Guião 1 - O Ambiente de Desenvolvimento
+# Guião 1 - Ambiente de Desenvolvimento
 **Criptografia de um Ficheiro**
 
-A adoção neste guião foi através do mecanismo de cifra autenticada ```Fernet``` e o objetivo foi a criação tanto dum ficheiro que ficasse com a chave e outro com o criptograma criado através do ficheiro.
+O Fernet é um método de criptografia simétrica que se certifica de que uma mensagem codificada não possa ser manipulada ou lida sem a sua devida chave.
 
-Depois para a verificação total no ```Python``` houve a leitura destes dois ficheiros e colocado os seus valores em variáveis diferentes das anteriores e no fim verifica-se através dum *print* que o criptograma corresponde ao ficheiro de texto inicial.
+O objetivo deste guião prático é essencialmente compreender como funciona este mecanismo de cifra autenticada e como assegura a *confidencialidade* e *integridade* dos dados armazenados num ficheiro.
+
+--- 
+
+## Resolução do Guião
+
+**Para exercitar este método da biblioteca ```cryptography```, o grupo desenvolveu um ficheiro de texto com o texto a cifrar, seguindo após isso o seguinte pensamento:**
+1. Criação de uma chave ```Fernet``` codificada que é depois guardada num ficheiro.
+
+Esta chave ```Fernet``` deve ser mantida em segredo, dado que é através dela que o texto é cifrado e posteriormente decifrado. 
+
+2. Abertura/*Parse* do texto a ser cifrado. A este texto é aplicada a criptografia em si, que resulta num *token* ```Fernet```. A informação cifrada é escrita num outro ficheiro.
+
+Este *token* ```Fernet``` possui garantias de *privacidade* e *autenticidade*.
+
+3. Estanto o texto cifrado, abre-se o ficheiro desse mesmo assim como o ficheiro da chave ```Fernet```. Com estas duas informações, faz-se o oposto, decifrando-se e obtendo-se assim o texto original. 
+
+---
+
+## Dificuldades do Guião
+ 
+Este método ```Fernet``` tornou-se simples de utilizar, dado que já faz todo o trabalho difícil no processo de criptografia de um ficheiro. Apenas foi preciso conhecer o propósito de cada método usado, os seus parâmetros e ainda os seus valores de retorno. 
