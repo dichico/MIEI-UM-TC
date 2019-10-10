@@ -21,3 +21,10 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
   - **Estudo de duas estratégias para evitar utilização de ficheiros desprotegidos:**
     - Evitar o armazenamento da chave - *Password Based Key Derivation Functions (PBKDF)*;
     - Armazenar o ficheiro de forma protegida - *KeyStore*.
+
+- **Guião 3** [Implementação de Cifra Autenticada](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G3)
+  - Tentativa de entender como é que as propriedades oferecidas pela cifra ```Fernet```(confidencialidade dos dados e integridade da informação) podem ser criadas através de técnicas criptográficas disponíveis.
+  - **Desenvolvimento de três versões de cifras pela diferente combinação entre uma *crifra simétrica* e de um *MAC*:**
+     - encrypt and MAC;
+     - encrypt then MAC;
+     - MAC then encrypt.
