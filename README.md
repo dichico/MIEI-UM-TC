@@ -28,3 +28,9 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
      - encrypt and MAC;
      - encrypt then MAC;
      - MAC then encrypt.
+
+---
+
+## **Notas**
+
+- [ ] Terminar Guião 3.
