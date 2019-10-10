@@ -14,7 +14,7 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
 - **Guião 1** [Ambiente de Desenvolvimento](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G1)   
   - Preparação do repositório da Unidade Curricular no ```Github```.
   - Instalação da biblioteca de suporte ```cryptography``` para se usar ao longo dos guiões.
-  - Proposta de exercício para se criar uma **cifra autenticada de um ficheiro** através do método de criptografia ``Fernet```.
+  - Proposta de exercício para se criar uma **cifra autenticada de um ficheiro** através do método de criptografia ```Fernet```.
 
 - **TCP 2** [Protecção de Segredos Criptográficos](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G2)
   - Discussão da necessidade de evitar armazenar segredos criptográficos em ficheiros sem qualquer tipo de proteção.
