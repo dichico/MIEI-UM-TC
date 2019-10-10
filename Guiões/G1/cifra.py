@@ -1,37 +1,41 @@
 from cryptography.fernet import Fernet
 
-key = Fernet.generate_key()
+### 1. Processo de crifrar o conteúdo do ficheiro. ###
 
-# só a guardar a chave
-file = open('chave.key', 'wb')
-file.write(key)
-file.close()
+    key = Fernet.generate_key()
 
-# abrir o ficheiro a cifrar
-textofile = open('texto.txt', 'rb')
-texto = textofile.read()
-textofile.close()
+    # Guardar a chave Fernet num ficheiro.
+    file = open('chave.key', 'wb')
+    file.write(key)
+    file.close()
 
-# cifrar
-f = Fernet(key)
-cifra = f.encrypt(texto)
+    # Abrir/Ler o conteúdo do texto a cifrar.
+    textofile = open('texto.txt', 'rb')
+    texto = textofile.read()
+    textofile.close()
 
-# criar ficheiro com o texto cifrado
-fileencrypt = open('cifrado.txt', 'wb')
-fileencrypt.write(cifra)
-fileencrypt.close()
-# ------
-# buscar chave
-file = open('chave.key', 'rb')
-chave = file.read()
-file.close()
+    # Crifrar o texto.
+    f = Fernet(key)
+    cifra = f.encrypt(texto)
 
-# buscar texto cifrado
-filecifrado = open('cifrado.txt', 'rb')
-textocifrado = filecifrado.read()
-filecifrado.close()
+    # Criar/Escrever o conteúdo do texto cifrado num novo ficheiro.
+    fileencrypt = open('cifrado.txt', 'wb')
+    fileencrypt.write(cifra)
+    fileencrypt.close()
 
-# decrypt com a chave do ficheiro
-f2 = Fernet(chave)
-final = f2.decrypt(textocifrado)
-print(final)
+### 2. Processo de decifrar o conteúdo do ficheiro. ###
+
+    # Ler a chave Fernet.
+    file = open('chave.key', 'rb')
+    chave = file.read()
+    file.close()
+
+    # Ler o conteúdo do texto cifrado.
+    filecifrado = open('cifrado.txt', 'rb')
+    textocifrado = filecifrado.read()
+    filecifrado.close()
+
+    # Decifrar o texto por aplicação da chave Fernet.
+    f2 = Fernet(chave)
+    final = f2.decrypt(textocifrado)
+    print(final)
