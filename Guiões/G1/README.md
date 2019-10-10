@@ -11,15 +11,15 @@ O objetivo deste guião prático é essencialmente compreender como funciona est
 
 **Para começar a resolução do trabalho proposto, o grupo desenvolveu um ficheiro de texto com a mensagem a cifrar, seguindo o seguinte pensamento:**
 
-1. Criação de uma chave ```Fernet``` codificada que é depois guardada num ficheiro.
+1. Criação de uma chave codificada ```Fernet```, que é depois guardada num ficheiro.
 
-Esta chave ```Fernet``` deve ser mantida em segredo, dado que é através dela que o texto é cifrado e posteriormente decifrado. 
+A chave ```Fernet``` deve ser mantida em segredo, dado que é através dela que o texto é cifrado e posteriormente decifrado. 
 
-2. Abertura/*Parse* do texto a ser cifrado. A este texto é aplicada a criptografia em si, que resulta num *token* ```Fernet```. A informação cifrada é escrita num outro ficheiro.
+2. Abertura/*Parse* do texto a ser cifrado. A este texto é aplicada a criptografia em si, que resulta num *token* ```Fernet```. Esta informação cifrada é escrita num outro ficheiro.
 
-Este *token* ```Fernet``` possui garantias de *privacidade* e *autenticidade*.
+O *token* ```Fernet``` possui garantias de *privacidade* e *autenticidade*.
 
-3. Estanto o texto cifrado, abre-se o ficheiro desse mesmo assim como o ficheiro da chave ```Fernet```. Com estas duas informações, faz-se o oposto, decifrando-se e obtendo-se assim o texto original. 
+3. Estanto o texto cifrado, abre-se e lê-se o ficheiro do mesmo, assim como o ficheiro da chave. Com estas duas informações, decifra-se o conteúdo do *token* por aplicação da chave ```Fernet```, obtendo-se assim o texto original. 
 
 ---
 
