@@ -7,17 +7,17 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.backends import default_backend
 from cryptography.fernet import Fernet
 
-# FASE 1 - Encriptar
+### 1. Processo de crifrar o conteúdo do ficheiro. ###
 
 backend = default_backend()
 salt = os.urandom(16)
 
-# Guardar o Salt gerado
+# Guardar o Salt gerado.
 file = open('salt.key', 'wb')
 file.write(salt)
 file.close()
 
-# Criar o kdf
+# Cria uma chave KDF.
 kdf = PBKDF2HMAC(
     algorithm=hashes.SHA256(),
     length=32,
@@ -26,15 +26,16 @@ kdf = PBKDF2HMAC(
     backend=backend
 )
 
-# Perguntar/Guardar a Passphrase
+# Perguntar/Guardar a passphrase  dada pelo User.
 try:
     password = getpass.getpass().encode()
 except Exception as error:
     print("Erro na password", error)
 
+# Deriva uma chave criptográfica através da passphrase do User.
 key = kdf.derive(password)
 
-# Abrir ficheiro texto que se quer cifrar
+# Abrir/Ler o conteúdo do texto a cifrar.
 textofile = open('texto.txt', 'rb')
 texto = textofile.read()
 textofile.close()

@@ -35,4 +35,6 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
  
 - [x] Terminar de documentar a lista dos guiões.
 - [x] Terminar de documentar o Guião 1.
+- [ ] Terminar de documentar o Guião 2.
+- [ ] Terminar de documentar o Guião 3.
 - [ ] Terminar Guião 3.
