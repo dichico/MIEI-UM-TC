@@ -1,5 +1,4 @@
 # Guião 1 - Ambiente de Desenvolvimento
-**Criptografia de um Ficheiro**
 
 O Fernet é um método de criptografia simétrica que se certifica de que uma mensagem codificada não possa ser manipulada ou lida sem a sua devida chave.
 
