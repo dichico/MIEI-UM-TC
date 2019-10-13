@@ -7,7 +7,7 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes, hmac
 
-# Obter as chaves Crypt e MAC
+# Obter randoms para o Salt e Nonce
 salt = os.urandom(16)
 nonce = os.urandom(16)
 
@@ -35,7 +35,7 @@ chaveMAC = key[32:]
 
 # FASE 1 - Encriptar
 
-# Abrir o ficheiro a crifrar
+# Abrir o ficheiro a cifrar
 textofile = open('texto.txt', 'rb')
 textoCifrar = textofile.read()
 textofile.close()
