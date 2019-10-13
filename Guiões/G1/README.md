@@ -22,6 +22,6 @@ O *token* ```Fernet``` possui garantias de *privacidade* e *autenticidade*.
 
 ---
 
-## Dificuldades do Guião
+## Observações Finais
  
 Este método ```Fernet``` tornou-se simples de utilizar, dado que já faz todo o trabalho difícil no processo de criptografia de um ficheiro. Apenas foi preciso conhecer o propósito de cada método usado, os seus parâmetros e ainda os seus valores de retorno. 

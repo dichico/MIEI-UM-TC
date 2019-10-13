@@ -12,7 +12,7 @@ Até então, temos utilizado a cifra autenticada ```Fernet```, que por si só, a
 
 ## Resolução do Guião
 
-- **encrypt and MAC**
+- ### **encrypt and MAC**
 
 Este método não garante qualquer integridade sobre o texto cifrado, uma vez que o MAC (*Message Authentication Code*) é aplicado sobre o texto simples.
 
@@ -28,7 +28,7 @@ Com isso em mente, facilmente se entende que este método abre as portas para al
 
 Para se desencriptar é só recorrer ao método *decryptor()*, obtendo-se a mensagem que em si foi encriptada anteriormente.
 
-- **encrypt then MAC**
+- ###  **encrypt then MAC**
 
 Este método fornece integridade sobre o texto cifrado, dado que o texto limpo passa originalmente pela cifra, e o MAC é calculado já sobre o criptograma. Isso faz com que este seja o modo mais eficiente/recomendado para proteger a informação e o mais simples de provar toda a segurança em termos da criptografia.
 
@@ -54,14 +54,17 @@ Por aplicação desta implementação, um texto cifrado inválido não pode serv
       ...
       mensagemEncriptada = encryptor.update(textoCifrar)
 
-    # Parte HMAC.
+    # Parte HMAC já com o criptograma.
     mac = hmac.HMAC(chaveMAC, hashes.SHA256(), 
                     backend = default_backend())
     mac.update(mensagemEncriptada)
   ```
 
+- ### **MAC then ecnrypt**
+
+Este método não fornence, igualmente ao método encrypt and MAC, qualquer integridade sobre o texto cifrado, pois não existe forma de saber se a mensagem foi "atacada"/modificada até a mesma ser decifrada. Isto acontece porque primeiro é calculado o MAC sobre o texto limpo, e só depois é cifrado (texto limpo e tag de autenticação).
+
 ---
 
-## Dificuldades do Guião
-
+## Observações Finais
 

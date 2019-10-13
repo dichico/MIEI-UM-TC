@@ -36,10 +36,13 @@ O processo de decifrar a informação é análogo, só que neste caso não se ge
 
 - **Método *Scrypt***
 
+Este método encontra-se ainda em fase de desenvolvimento. Dada a complexidade de interpretação do problema proposto, o grupo apresenta algumas dificuldades em desenvolver um algoritmo que atenda aos requisitos enunciados.
+Ainda assim, acreditamos conseguir resolver o problema mais tarde com a ajuda por parte do docente da Unidade Curricular.
+
 ---
 
-## Dificuldades do Guião
- 
+## Observações Finais
+
 O método *PBKDF*, apesar de complexo, tornou-se simples de entender, dado que parte do processo era equivalente ao [Guião 1](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G1). 
 
 A dificuldade maior deste Guião foi distinguir os doi métodos e compreender como funcionam as *Key Stores* e de que forma eliminam a grande falha que o ```Fernet``` não disponibiliza.
