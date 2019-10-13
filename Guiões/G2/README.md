@@ -14,6 +14,11 @@ O inconveniente de todo este processo é estarmos a guardar a chave num ficheiro
 
 ## Resolução do Guião
 
+**No que toca à utilização do méotodo *PBKDF*, a ideia passa por gerar uma espécie de segredo criptográfico através de uma *password* que é solicitada ao utilizador. Com isto, conseguimos garantir que a *password* não é diretamente utilizada como chave criptográfica como acontecia com a chave ```Fernet```:**
+
+1. Criação de um *Salt* aleatório - valor seguro com 16 bits, que é depois guardado num ficheiro.
+2. 
+
 ---
 
 ## Dificuldades do Guião
