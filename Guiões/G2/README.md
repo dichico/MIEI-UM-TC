@@ -14,12 +14,12 @@ O inconveniente de todo este processo é estarmos a guardar a chave num ficheiro
 
 ## Resolução do Guião
 
-**No que toca à utilização do método *PBKDF*, a ideia passa por gerar uma espécie de segredo criptográfico através de uma *password* que é solicitada ao utilizador. Com isto, conseguimos garantir que a *password* não é diretamente utilizada como chave criptográfica tal como acontecia com a chave ```Fernet``` do Guião 1.**
+**No que toca à utilização do método *PBKDF*, a ideia passa por gerar uma espécie de segredo criptográfico através de uma *password* que é solicitada ao utilizador. Com isto, conseguimos garantir que a *password* não é diretamente utilizada como chave criptográfica, tal como acontecia com a chave ```Fernet``` do Guião 1.**
 
-**Assim, para o *PBKDF*, seguiram-se os seguintes passos:**
+**Assim, para o método *PBKDF*, seguiram-se os seguintes passos:**
 
 1. Criação de um *Salt* aleatório - valor seguro com 16 bits, que é guardado num ficheiro. O *Salt* é depois usado como entrada adicional na função *PBKDF2HMAC*.
-2. Desenvolvimento da classe *PBKDF2HMAC* em si, com definição das características necessárias - como o número de iterações, algortimo e salt.
+2. Desenvolvimento de uma classe que servirá para depois derivar a chave criptográfica. Esta classe aplica a função *PBKDF2HMAC*, definindo o algoritmo a usar, o número de iterações e ainda o *Salt* anterior.
 3. Solicitação da *passphrase* ao utilizador.
 4. Aplicação da *passphrase* ao algoritmo criado anteriormente. 
 
@@ -27,7 +27,7 @@ Nesta fase, o *PBKDF2* aplica uma função à *password* do utilizador, juntamen
 
 Como resultado desta aplicação será produzida uma chave derivada que irá ser udada como chave criptográfica no restante do processo.
 
-5. Tendo a chave criptográfica, o processo é agora o mesmo que o do Guião 1. A única diferença é que não estamos a usar/armazenar a chave original, mas sim uma chave derivada.
+5. Tendo a chave criptográfica, o processo é similar ao do Guião 1. A única diferença é que não estamos a usar/armazenar a chave original, mas sim uma chave derivada.
 
 
 ---
