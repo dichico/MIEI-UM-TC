@@ -14,7 +14,7 @@ O inconveniente de todo este processo é estarmos a guardar a chave num ficheiro
 
 ## Resolução do Guião
 
--  **Método *PBKDF***
+- ### **Método *PBKDF***
 
 No que toca à utilização do método *PBKDF*, a ideia passa por gerar uma espécie de segredo criptográfico através de uma *password* que é solicitada ao utilizador. Com isto, conseguimos garantir que a *password* não é diretamente utilizada como chave criptográfica, tal como acontecia com a chave ```Fernet``` do [Guião 1](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G1).
 
@@ -33,8 +33,7 @@ Em termos de classe, o que acontece é que se aplica uma função pseudo aleató
 
 O processo de decifrar a informação é análogo, só que neste caso não se gera um novo *Salt* - usa-se o que anteriormente ficou gravado num ficheiro.
 
-
-- **Método *Scrypt***
+- ### **Método *Scrypt***
 
 Este método encontra-se ainda em fase de desenvolvimento. Dada a complexidade de interpretação do problema proposto, o grupo apresenta algumas dificuldades em desenvolver um algoritmo que atenda aos requisitos enunciados.
 Ainda assim, acreditamos conseguir resolver o problema mais tarde com a ajuda por parte do docente da Unidade Curricular.
