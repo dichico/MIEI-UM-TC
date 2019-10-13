@@ -17,7 +17,7 @@ from cryptography.fernet import Fernet
     file.write(salt)
     file.close()
 
-    # Cria uma chave KDF.
+    # Criar instância da classe PBKDF2HMAC. 
     kdf = PBKDF2HMAC(
         algorithm=hashes.SHA256(),
         length=32,
@@ -57,7 +57,7 @@ from cryptography.fernet import Fernet
     salt2 = file.read()
     file.close()
 
-    # Criar o kdf
+    # Criar nova instância da classe PBKDF2HMAC.
     kdf2 = PBKDF2HMAC(
         algorithm=hashes.SHA256(),
         length=32,

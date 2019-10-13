@@ -14,12 +14,32 @@ O inconveniente de todo este processo é estarmos a guardar a chave num ficheiro
 
 ## Resolução do Guião
 
-**No que toca à utilização do méotodo *PBKDF*, a ideia passa por gerar uma espécie de segredo criptográfico através de uma *password* que é solicitada ao utilizador. Com isto, conseguimos garantir que a *password* não é diretamente utilizada como chave criptográfica como acontecia com a chave ```Fernet```:**
+-  **Método *PBKDF***
 
-1. Criação de um *Salt* aleatório - valor seguro com 16 bits, que é depois guardado num ficheiro.
-2. 
+No que toca à utilização do método *PBKDF*, a ideia passa por gerar uma espécie de segredo criptográfico através de uma *password* que é solicitada ao utilizador. Com isto, conseguimos garantir que a *password* não é diretamente utilizada como chave criptográfica, tal como acontecia com a chave ```Fernet``` do [Guião 1](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G1).
+
+**Assim, para o método *PBKDF*, seguiram-se os seguintes passos:**
+
+1. Criação de um *Salt* aleatório - valor seguro com 16 bits, que é guardado num ficheiro. O *Salt* é depois usado como entrada adicional na função *PBKDF2HMAC*.
+2. Desenvolvimento de uma instância da classe PBKDF2HMAC, definindo todos os valores necessários para o processo matemático em si - como o *Salt*, número de iterações e algoritmo.
+3. Solicitação da *passphrase* ao utilizador.
+4. Aplicação da *passphrase* ao algoritmo definido na instância criada anteriormente. 
+
+Nesta fase, o *PBKDF2HMAC* aplica o método *derive* à *password* do utilizador, produzindo uma chave derivada que irá ser udada como chave criptográfica no restante do processo.
+
+Em termos de classe, o que acontece é que se aplica uma função pseudo aleatória à *passphrase* juntamente com o valor de *Salt*, repetindo o processo tantas vezes quanto o número de iterações, até se obter a chave derivada.
+
+5. Tendo a chave criptográfica, o processo é similar ao do [Guião 1](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G1). A única diferença é que não estamos a usar/armazenar a chave original, mas sim uma chave derivada.
+
+O processo de decifrar a informação é análogo, só que neste caso não se gera um novo *Salt* - usa-se o que anteriormente ficou gravado num ficheiro.
+
+
+- **Método *Scrypt***
 
 ---
 
 ## Dificuldades do Guião
  
+O método *PBKDF*, apesar de complexo, tornou-se simples de entender, dado que parte do processo era equivalente ao [Guião 1](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G1). 
+
+A dificuldade maior deste Guião foi distinguir os doi métodos e compreender como funcionam as *Key Stores* e de que forma eliminam a grande falha que o ```Fernet``` não disponibiliza.
