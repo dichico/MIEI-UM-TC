@@ -1,6 +1,6 @@
 # Guião 3 - Implementação de Cifra Autenticada
 
-Até então, temos utilizado a cifra autenticada ```Fernet```, que por si só, acaba por fazer grande parte do trabalho no que toca à criptografia de uma dada informação. Com a realização deste Guião, vamos mais "baixo nível", na tentativa de entender como é que as propriedades conferidas por esta cifra autenticada podem efetivamente ser estabelecidas por recorrência a técnicas criptográficas existentes. 
+Até então, temos utilizado a cifra autenticada ```Fernet```, que por si só, acaba por fazer grande parte do trabalho no que toca à criptografia de uma dada informação. Com a realização deste guião, vamos mais "baixo nível", na tentativa de entender como é que as propriedades conferidas por esta cifra autenticada podem efetivamente ser estabelecidas por recorrência a técnicas criptográficas existentes. 
 
 **Para esse fim, vamos desenvolver três versões de cifras pela diferente combinação entre uma cifra simétrica e de um MAC:**
 
@@ -16,9 +16,9 @@ Até então, temos utilizado a cifra autenticada ```Fernet```, que por si só, a
 
 Este método não garante qualquer integridade sobre o texto cifrado, uma vez que o MAC (*Message Authentication Code*) é aplicado sobre o texto simples.
 
-Ter em conta que o MAC se trata de uma informação curta usada para confirmar que uma mensagem veio de certo remetente, não tendo sido alterada. Isto acaba por proteger a integridade dos dados e a sua autenticidade, permitindo verificar possíveis alterações no conteúdo da mensagem.
+É importante ter a ideia de que o MAC se trata de uma informação curta usada para confirmar que uma mensagem veio de certo remetente, não tendo sido alterada. Esta metodologia acaba por proteger a integridade dos dados e a sua autenticidade, permitindo verificar possíveis alterações no conteúdo da mensagem.
 
-Com isso em mente, facilmente se entende que este método abre as portas para alguns ataques em relação ao texto cifrado, dado que apenas conseguimos verificar erros no toca ao texto original/limpo. 
+Com isso em mente, facilmente se entende que este método abre portas para possíveis ataques em relação ao texto cifrado, dado que apenas conseguimos verificar erros no toca ao texto original/limpo. 
 
 **Pelo conhecimento do método, foram criados os seguintes passos para a obtenção da solução:**
 
@@ -32,7 +32,7 @@ Para se desencriptar é só recorrer ao método *decryptor()*, obtendo-se a mens
 
 Este método fornece integridade sobre o texto cifrado, dado que o texto limpo passa originalmente pela cifra, e o MAC é calculado já sobre o criptograma. Isso faz com que este seja o modo mais eficiente/recomendado para proteger a informação e o mais simples de provar toda a segurança em termos da criptografia.
 
-Por aplicação desta implementação, um texto cifrado inválido não pode servir de ataque, já que o MAC opera sobre o texto cifrado impossibilitando a denúncia de informações acerca do tempo original.
+Por aplicação desta implementação, um texto cifrado inválido não pode servir de ataque, já que o MAC opera sobre o texto cifrado impossibilitando a denúncia de informações acerca do texto original.
 
 **Em termos de algoritmo de resolução, é similar ao anterior, diferindo apenas no cálculo do MAC:**
 
