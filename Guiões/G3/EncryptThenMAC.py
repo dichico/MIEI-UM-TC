@@ -35,33 +35,33 @@ chaveMAC = key[32:]
 
 # FASE 1 - Encriptar
 
-    # Abrir o ficheiro a cifrar.
-    textofile = open('texto.txt', 'rb')
-    textoCifrar = textofile.read()
-    textofile.close()
+# Abrir o ficheiro a cifrar.
+textofile = open('texto.txt', 'rb')
+textoCifrar = textofile.read()
+textofile.close()
 
-    # Algoritmo Chacha20 para a cifragem.
-    algorithm = algorithms.ChaCha20(chaveC, nonce)
-    cipher = Cipher(algorithm, mode=None, backend = default_backend())
-    encryptor = cipher.encryptor()
-    mensagemEncriptada = encryptor.update(textoCifrar)
+# Algoritmo Chacha20 para a cifragem.
+algorithm = algorithms.ChaCha20(chaveC, nonce)
+cipher = Cipher(algorithm, mode=None, backend = default_backend())
+encryptor = cipher.encryptor()
+mensagemEncriptada = encryptor.update(textoCifrar)
 
-    # Parte HMAC já com o criptograma.
-    mac = hmac.HMAC(chaveMAC, hashes.SHA256(), backend = default_backend())
-    mac.update(mensagemEncriptada)
-    tagMAC = mac.finalize()
+# Parte HMAC já com o criptograma.
+mac = hmac.HMAC(chaveMAC, hashes.SHA256(), backend = default_backend())
+mac.update(mensagemEncriptada)
+tagMAC = mac.finalize()
 
-    # Guardar o criptograma.
-    fileCrypt = open('textoCrypt.txt', 'wb')
-    fileCrypt.write(mensagemEncriptada)
-    fileCrypt.close()
+# Guardar o criptograma.
+fileCrypt = open('textoCrypt.txt', 'wb')
+fileCrypt.write(mensagemEncriptada)
+fileCrypt.close()
 
-    # Guardar a tag MAC.
-    fileMAC = open('tagMAC.txt', 'wb')
-    fileMAC.write(tagMAC)
-    fileMAC.close()
+# Guardar a tag MAC.
+fileMAC = open('tagMAC.txt', 'wb')
+fileMAC.write(tagMAC)
+fileMAC.close()
 
 # FASE 2 - Desencriptar
 
-    decryptor  = cipher.decryptor()
-    print(decryptor.update(mensagemEncriptada))
+decryptor  = cipher.decryptor()
+print(decryptor.update(mensagemEncriptada))
