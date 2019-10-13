@@ -7,3 +7,62 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes, hmac
 
+# Obter as chaves Crypt e MAC
+salt = os.urandom(16)
+nonce = os.urandom(16)
+
+# criacao da instancia kdf
+kdf = PBKDF2HMAC(
+    algorithm=hashes.SHA256(),
+    length=64,
+    salt=salt,
+    iterations=100000,
+    backend = default_backend()
+)
+
+# pedir a passphrase ao user
+try:
+    password = getpass.getpass().encode()
+except Exception as error:
+    print("Erro na password", error)
+
+# derivacao da passphrase
+key = kdf.derive(password)
+
+# divisao dos 64 bits de chave derivada para a chave de encriptação e para a chave para o MAC
+chaveC = key[:32]
+chaveMAC = key[32:]
+
+# FASE 1 - Encriptar
+
+# Abrir o ficheiro a crifrar
+textofile = open('texto.txt', 'rb')
+textoCifrar = textofile.read()
+textofile.close()
+
+# Algoritmo Chacha20 para a cifragem
+algorithm = algorithms.ChaCha20(chaveC, nonce)
+cipher = Cipher(algorithm, mode=None, backend = default_backend())
+encryptor = cipher.encryptor()
+mensagemEncriptada = encryptor.update(textoCifrar)
+
+# Parte HMAC com o criptograma já
+mac = hmac.HMAC(chaveMAC, hashes.SHA256(), backend = default_backend())
+mac.update(mensagemEncriptada)
+tagMAC = mac.finalize()
+
+# Guardar o criptograma
+fileCrypt = open('textoCrypt.txt', 'wb')
+fileCrypt.write(mensagemEncriptada)
+fileCrypt.close()
+
+# Guardar a tag MAC
+fileMAC = open('tagMAC.txt', 'wb')
+fileMAC.write(tagMAC)
+fileMAC.close()
+
+
+# FASE 2 - Desencriptar
+
+decryptor  = cipher.decryptor()
+print(decryptor.update(mensagemEncriptada))
