@@ -1,8 +1,8 @@
 # Guião 3 - Implementação de Cifra Autenticada
 
-Até então, temos utilizado a cifra autenticada ```Fernet```, que por si só, acaba por fazer grande parte do trabalho no que toca à criptografia de uma dada informação. Com a realização deste Guião, vamos mais "baixo nível", na tentativa de entender como é que as propriedades conferidas por esta cifra autenticada, podem efetivamente ser estabelecidas por recorrência a técnicas criptográficas existentes. 
+Até então, temos utilizado a cifra autenticada ```Fernet```, que por si só, acaba por fazer grande parte do trabalho no que toca à criptografia de uma dada informação. Com a realização deste Guião, vamos mais "baixo nível", na tentativa de entender como é que as propriedades conferidas por esta cifra autenticada podem efetivamente ser estabelecidas por recorrência a técnicas criptográficas existentes. 
 
-**Assim, vamos desenvolver três versões de cifras pela diferente combinação entre uma cifra simétrica e de um MAC:**
+**Para esse fim, vamos desenvolver três versões de cifras pela diferente combinação entre uma cifra simétrica e de um MAC:**
 
 1. [encrypt and MAC](https://github.com/uminho-miei-crypto/1920-G9/blob/master/Gui%C3%B5es/G3/EncryptAndMAC.py).
 2. [encrypt then MAC](https://github.com/uminho-miei-crypto/1920-G9/blob/master/Gui%C3%B5es/G3/EncryptThenMAC.py).
@@ -29,6 +29,36 @@ Com isso em mente, facilmente se entende que este método abre as portas para al
 Para se desencriptar é só recorrer ao método *decryptor()*, obtendo-se a mensagem que em si foi encriptada anteriormente.
 
 - **encrypt then MAC**
+
+Este método fornece integridade sobre o texto cifrado, dado que o texto limpo passa originalmente pela cifra, e o MAC é calculado já sobre o criptograma. Isso faz com que este seja o modo mais eficiente/recomendado para proteger a informação e o mais simples de provar toda a segurança em termos da criptografia.
+
+Por aplicação desta implementação, um texto cifrado inválido não pode servir de ataque, já que o MAC opera sobre o texto cifrado impossibilitando a denúncia de informações acerca do tempo original.
+
+**Em termos de algoritmo de resolução, é similar ao anterior, diferindo apenas no cálculo do MAC:**
+
+  - No algoritmo do método anterior, tratáva-mos da parte do criptograma e depois do cálculo da *tag* MAC. Ambos eram aplicados sobre o texto limpo.
+
+  ```
+      ...
+      mensagemEncriptada = encryptor.update(textoCifrar)
+
+    # Parte HMAC.
+    mac = hmac.HMAC(chaveMAC, hashes.SHA256(), 
+                    backend = default_backend())
+    mac.update(textoCifrar)
+  ```
+
+  - Neste método, o MAC é calculado sobre o criptograma.
+
+  ```
+      ...
+      mensagemEncriptada = encryptor.update(textoCifrar)
+
+    # Parte HMAC.
+    mac = hmac.HMAC(chaveMAC, hashes.SHA256(), 
+                    backend = default_backend())
+    mac.update(mensagemEncriptada)
+  ```
 
 ---
 
