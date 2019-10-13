@@ -11,13 +11,12 @@ O inconveniente de todo este processo é estarmos a guardar a chave num ficheiro
 2. [scrypt.py](scrypt.py) refere-se à utilização do método *Scrypt*.
 
 --- 
----
 
 ## Resolução do Guião
 
 -  **Método *PBKDF***
 
-No que toca à utilização do método *PBKDF*, a ideia passa por gerar uma espécie de segredo criptográfico através de uma *password* que é solicitada ao utilizador. Com isto, conseguimos garantir que a *password* não é diretamente utilizada como chave criptográfica, tal como acontecia com a chave ```Fernet``` do Guião 1.
+No que toca à utilização do método *PBKDF*, a ideia passa por gerar uma espécie de segredo criptográfico através de uma *password* que é solicitada ao utilizador. Com isto, conseguimos garantir que a *password* não é diretamente utilizada como chave criptográfica, tal como acontecia com a chave ```Fernet``` do [Guião 1](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G1).
 
 **Assim, para o método *PBKDF*, seguiram-se os seguintes passos:**
 
@@ -30,16 +29,17 @@ Nesta fase, o *PBKDF2HMAC* aplica o método *derive* à *password* do utilizador
 
 Em termos de classe, o que acontece é que se aplica uma função pseudo aleatória à *passphrase* juntamente com o valor de *Salt*, repetindo o processo tantas vezes quanto o número de iterações, até se obter a chave derivada.
 
-5. Tendo a chave criptográfica, o processo é similar ao do Guião 1. A única diferença é que não estamos a usar/armazenar a chave original, mas sim uma chave derivada.
+5. Tendo a chave criptográfica, o processo é similar ao do [Guião 1](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G1). A única diferença é que não estamos a usar/armazenar a chave original, mas sim uma chave derivada.
 
 O processo de decifrar a informação é análogo, só que neste caso não se gera um novo *Salt* - usa-se o que anteriormente ficou gravado num ficheiro.
 
----
 
-- Método *Scrypt*
+- **Método *Scrypt***
 
----
 ---
 
 ## Dificuldades do Guião
  
+O método *PBKDF*, apesar de complexo, tornou-se simples de entender, dado que parte do processo era equivalente ao [Guião 1](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G1). 
+
+A dificuldade maior deste Guião foi distinguir os doi métodos e compreender como funcionam as *Key Stores* e de que forma eliminam a grande falha que o ```Fernet``` não disponibiliza.
