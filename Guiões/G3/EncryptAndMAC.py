@@ -11,6 +11,7 @@ from cryptography.hazmat.primitives import hashes, hmac
 salt = os.urandom(16)
 nonce = os.urandom(16)
 
+# criacao da instancia kdf
 kdf = PBKDF2HMAC(
     algorithm=hashes.SHA256(),
     length=64,
@@ -19,33 +20,35 @@ kdf = PBKDF2HMAC(
     backend = default_backend()
 )
 
+# pedir a passphrase ao user
 try:
     password = getpass.getpass().encode()
 except Exception as error:
     print("Erro na password", error)
 
+# derivacao da passphrase
 key = kdf.derive(password)
+
+# divisao dos 64 bits de chave derivada para a chave de encriptação e para a chave para o MAC
+chaveC = key[:32]
+chaveMAC = key[32:]
 
 # FASE 1 - Encriptar
 
-# Parte Encrypt
-
-algorithm = algorithms.ChaCha20(chaveC, nonce)
-
 # Abrir o ficheiro a crifrar
 textofile = open('texto.txt', 'rb')
-textoCrifar = textofile.read()
+textoCifrar = textofile.read()
 textofile.close()
 
-#Cifrar
+# Algoritmo Chacha20 para a cifragem
+algorithm = algorithms.ChaCha20(chaveC, nonce)
 cipher = Cipher(algorithm, mode=None, backend = default_backend())
 encryptor = cipher.encryptor()
-mensagemEncriptada = encryptor.update(textoCrifar)
+mensagemEncriptada = encryptor.update(textoCifrar)
 
 # Parte HMAC
-
 mac = hmac.HMAC(chaveMAC, hashes.SHA256(), backend = default_backend())
-mac.update(textoCrifar)
+mac.update(textoCifrar)
 tagMAC = mac.finalize()
 
 # Guardar o criptograma
@@ -57,6 +60,7 @@ fileCrypt.close()
 fileMAC = open('tagMAC.txt', 'wb')
 fileMAC.write(tagMAC)
 fileMAC.close()
+
 
 # FASE 2 - Desencriptar
 
