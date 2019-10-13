@@ -5,6 +5,7 @@ O Fernet é um método de criptografia simétrica que se certifica de que uma me
 O objetivo deste guião prático é essencialmente compreender como funciona este mecanismo de cifra autenticada e como assegura a *confidencialidade* e *integridade* dos dados armazenados num ficheiro.
 
 --- 
+---
 
 ## Resolução do Guião
 
@@ -20,6 +21,7 @@ O *token* ```Fernet``` possui garantias de *privacidade* e *autenticidade*.
 
 3. Estanto o texto cifrado, abre-se e lê-se o ficheiro do mesmo, assim como o ficheiro da chave. Com estas duas informações, decifra-se o conteúdo do *token* por aplicação da chave ```Fernet```, obtendo-se assim o texto original. 
 
+---
 ---
 
 ## Dificuldades do Guião

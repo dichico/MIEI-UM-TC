@@ -11,6 +11,7 @@ O inconveniente de todo este processo é estarmos a guardar a chave num ficheiro
 2. [scrypt.py](scrypt.py) refere-se à utilização do método *Scrypt*.
 
 --- 
+---
 
 ## Resolução do Guião
 
@@ -31,6 +32,13 @@ Em termos de classe, o que acontece é que se aplica uma função pseudo aleató
 
 5. Tendo a chave criptográfica, o processo é similar ao do Guião 1. A única diferença é que não estamos a usar/armazenar a chave original, mas sim uma chave derivada.
 
+O processo de decifrar a informação é análogo, só que neste caso não se gera um novo *Salt* - usa-se o que anteriormente ficou gravado num ficheiro.
+
+---
+
+- Método *Scrypt*
+
+---
 ---
 
 ## Dificuldades do Guião
