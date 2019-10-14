@@ -14,7 +14,7 @@ Até então, temos utilizado a cifra autenticada ```Fernet```, que por si só, a
 
 - ### **encrypt and MAC**
 
-Este método não garante qualquer integridade sobre o texto cifrado, uma vez que o MAC (*Message Authentication Code*) é aplicado sobre o texto simples.
+Este método não garante integridade sobre o texto cifrado, uma vez que o MAC (*Message Authentication Code*) é aplicado sobre o texto simples.
 
 É importante ter a ideia de que o MAC se trata de uma informação curta usada para confirmar que uma mensagem veio de certo remetente, não tendo sido alterada. Esta metodologia acaba por proteger a integridade dos dados e a sua autenticidade, permitindo verificar possíveis alterações no conteúdo da mensagem.
 
@@ -36,7 +36,7 @@ Por aplicação desta implementação, um texto cifrado inválido não pode serv
 
 **Em termos de algoritmo de resolução, é similar ao anterior, diferindo apenas no cálculo do MAC:**
 
-  - No algoritmo do método anterior, tratáva-mos da parte do criptograma e depois do cálculo da *tag* MAC. Ambos eram aplicados sobre o texto limpo.
+  - No algoritmo do método anterior, tratávamos da parte do criptograma e depois do cálculo da *tag* MAC. Ambos eram aplicados sobre o texto limpo.
 
   ```
       ...
@@ -60,9 +60,9 @@ Por aplicação desta implementação, um texto cifrado inválido não pode serv
     mac.update(mensagemEncriptada)
   ```
 
-- ### **MAC then ecnrypt**
+- ### **MAC then encrypt**
 
-Este método não fornece  qualquer integridade sobre o texto cifrado, pois não existe forma de saber se a mensagem foi "atacada"/modificada até a mesma ser decifrada. Isto acontece porque primeiro é calculado o MAC sobre o texto limpo, e só depois é cifrado (texto limpo e tag de autenticação).
+Este método não fornece, igualmente ao método encrypt and MAC, qualquer integridade sobre o texto cifrado, pois não existe forma de saber se a mensagem foi "atacada"/modificada até a mesma ser decifrada. Isto acontece porque primeiro é calculado o MAC sobre o texto limpo, e só depois é cifrado (texto limpo e tag de autenticação).
 
 ---
 
