@@ -51,17 +51,16 @@ mac = hmac.HMAC(chaveMAC, hashes.SHA256(), backend = default_backend())
 mac.update(textoCifrar)
 tagMAC = mac.finalize()
 
-# Guardar o criptograma.
-fileCrypt = open('textoCrypt.txt', 'wb')
-fileCrypt.write(mensagemEncriptada)
-fileCrypt.close()
+mensagemFinal = tagMAC + mensagemEncriptada
 
-# Guardar a tag MAC.
-fileMAC = open('tagMAC.txt', 'wb')
-fileMAC.write(tagMAC)
-fileMAC.close()
+# Guardar a tag MAC e o criptograma.
+fileCrypt = open('textoCrypt.txt', 'wb')
+fileCrypt.write(mensagemFinal)
+fileCrypt.close()
 
 # FASE 2 - Desencriptar
 
 decryptor  = cipher.decryptor()
-print(decryptor.update(mensagemEncriptada))
+
+descriptado = decryptor.update(mensagemFinal[32:])
+print(descriptado)
