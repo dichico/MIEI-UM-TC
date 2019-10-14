@@ -47,13 +47,11 @@ tagMAC = mac.finalize()
 
 mensagemFinal = tagMAC + textoCifrar # soma de bytes (colocar no inicio) A TAG é 32 bytes.
 
-# Algoritmo Chacha20 para a cifragem de tanto a mensagem como a tagMAC
+# Algoritmo Chacha20 para a cifragem de tanto a mensagem como a tagMAC.
 algorithm = algorithms.ChaCha20(chaveC, nonce)
 cipher = Cipher(algorithm, mode=None, backend = default_backend())
 encryptor = cipher.encryptor()
 mensagemEncriptada = encryptor.update(mensagemFinal)
-
-
 
 # Guardar o criptograma.
 fileCrypt = open('textoCrypt.txt', 'wb')

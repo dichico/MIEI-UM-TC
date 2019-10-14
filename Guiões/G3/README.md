@@ -62,9 +62,36 @@ Por aplicação desta implementação, um texto cifrado inválido não pode serv
 
 - ### **MAC then encrypt**
 
-Este método não fornece, igualmente ao método encrypt and MAC, qualquer integridade sobre o texto cifrado, pois não existe forma de saber se a mensagem foi "atacada"/modificada até a mesma ser decifrada. Isto acontece porque primeiro é calculado o MAC sobre o texto limpo, e só depois é cifrado (texto limpo e tag de autenticação).
+Este método não fornece qualquer integridade sobre o texto cifrado, pois não existe forma de saber se a mensagem foi "atacada"/modificada até a mesma ser decifrada. Isto acontece porque primeiro é calculado o MAC sobre o texto limpo, e só depois é cifrado (texto limpo e tag de autenticação).
+
+  ```
+    # Parte HMAC para o texto original.
+    mac = hmac.HMAC(chaveMAC, hashes.SHA256(), 
+                    backend = default_backend())
+    mac.update(textoCifrar)
+    tagMAC = mac.finalize()
+
+    mensagemFinal = tagMAC + textoCifrar 
+
+    # Algoritmo Chacha20 para a cifragem de tanto a mensagem como a tagMAC.
+    ...
+    mensagemEncriptada = encryptor.update(mensagemFinal)
+  ```
+
+Repare-se na criação da *tag* MAC antes mesmo de se cifrar a informação. Essa mesma *tag* é depois concatenada com o texto limpo. Em termos práticos isto implica que caso se queira verificar falhas/erros no criptograma, é necessário desencriptar para se conseguir obter a informação da *tag* MAC.
+
+No que toca ao restante do algoritmo é praticamente análogo aos anteriores, alterando apenas estes pontos cruciais e específicos do método em si.
 
 ---
 
 ## Observações Finais
 
+Ao desenvolver o terceiro método, o grupo notou que era necessário seguir outro método no que toca à *tag* MAC e ao criptograma. Para os dois primeiros métodos estava-se a guardar em ficheiros individuais tanto a *tag* como o criptograma, quando na verdade era suposto concatenar ambos, guardando num só ficheiro.
+
+Esta ideia foi desenvolvida no terceiro método, fazendo-se a soma em termos de *bytes* das duas primitivas criptográficas. Na fase de desencriptar, apenas foi necessário desencriptar a informação e obter os bits depois dos 32 primeiros correspondentes à *tag* MAC.
+
+``` 
+  descriptado=decryptor.update(mensagemEncriptada)
+  print(descriptado[32:])
+
+```
