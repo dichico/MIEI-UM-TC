@@ -60,7 +60,7 @@ fileCrypt.close()
 
 # FASE 2 - Desencriptar
 
-decryptor  = cipher.decryptor()
+decryptor = cipher.decryptor()
 
 descriptado = decryptor.update(mensagemFinal[32:])
 print(descriptado)

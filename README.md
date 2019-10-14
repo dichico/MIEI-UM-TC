@@ -44,7 +44,7 @@ Conseguimos colocar o requisito de guardar a *tag* MAC juntamente com o criptogr
 ```
     # FASE 2 - Desencriptar
 
-    decryptor  = cipher.decryptor()
+    decryptor = cipher.decryptor()
 
     descriptado = decryptor.update(mensagemFinal[32:])
     print(descriptado)
