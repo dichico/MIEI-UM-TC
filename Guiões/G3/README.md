@@ -62,7 +62,7 @@ Por aplicação desta implementação, um texto cifrado inválido não pode serv
 
 - ### **MAC then ecnrypt**
 
-Este método não fornence, igualmente ao método encrypt and MAC, qualquer integridade sobre o texto cifrado, pois não existe forma de saber se a mensagem foi "atacada"/modificada até a mesma ser decifrada. Isto acontece porque primeiro é calculado o MAC sobre o texto limpo, e só depois é cifrado (texto limpo e tag de autenticação).
+Este método não fornece  qualquer integridade sobre o texto cifrado, pois não existe forma de saber se a mensagem foi "atacada"/modificada até a mesma ser decifrada. Isto acontece porque primeiro é calculado o MAC sobre o texto limpo, e só depois é cifrado (texto limpo e tag de autenticação).
 
 ---
 
