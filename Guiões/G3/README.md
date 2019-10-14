@@ -93,5 +93,4 @@ Esta ideia foi desenvolvida no terceiro método, fazendo-se a soma em termos de 
 ``` 
   descriptado=decryptor.update(mensagemEncriptada)
   print(descriptado[32:])
-
 ```
