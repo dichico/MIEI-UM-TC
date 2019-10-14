@@ -33,8 +33,6 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
 
 ## **Notas**
  
-- [x] Terminar de documentar a lista dos guiões.
-- [x] Terminar de documentar o Guião 1.
-- [x] Terminar de documentar o Guião 2.
-- [x] Terminar de documentar o Guião 3.
-- [x] Terminar Guião 3.
+- Documentação do Guião 1 e 2 adicionadas/atualizadas. (10/10/2019)
+
+**Devido a um problema de atualização nos ficheiros README, apenas conseguimos introduzir na data mencionada.**
