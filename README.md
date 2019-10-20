@@ -16,7 +16,7 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
   - Instalação da biblioteca de suporte ```cryptography``` para se usar ao longo dos guiões.
   - Proposta de exercício para se criar uma **cifra autenticada de um ficheiro** através do método de criptografia ```Fernet```.
 
-- **TCP 2** [Protecção de Segredos Criptográficos](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G2)
+- **Guião 2** [Protecção de Segredos Criptográficos](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G2)
   - Discussão da necessidade de evitar armazenar segredos criptográficos em ficheiros sem qualquer tipo de proteção.
   - **Estudo de duas estratégias para evitar utilização de ficheiros desprotegidos:**
     - Evitar o armazenamento da chave - *Password Based Key Derivation Functions (PBKDF)*;
