@@ -28,11 +28,12 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
      - encrypt and MAC;
      - encrypt then MAC;
      - MAC then encrypt.
+- **Guião 4** [Animação de Modelos de Segurança]()
 
 ---
 
 ## **Notas**
- 
+
 - Documentação do Guião 1 e 2 adicionadas/atualizadas. 
 
 Devido a um problema de atualização nos ficheiros README, apenas conseguimos introduzir na data mencionada.
