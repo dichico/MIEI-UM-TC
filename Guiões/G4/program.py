@@ -4,7 +4,7 @@ from cifra import Cifra
 from adversario import Adversario
 
 cifra = Cifra()
-adversario = Adversario(123, 232)
+adversario = Adversario("OLAAA", "TUDO")
 
 m = [0, 1]
 
