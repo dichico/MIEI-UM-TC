@@ -28,8 +28,10 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
      - encrypt and MAC;
      - encrypt then MAC;
      - MAC then encrypt.
-- **Guião 4** [Animação de Modelos de Segurança]()
+- **Guião 4** [Animação de Modelos de Segurança](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G4)
 
+    - Animação de modelos de segurança que permitam obter uma ideia de como o(s) ataque(s) à  confidencialidades das cifras pode(m) ocorrer.
+    - Desenvolver o "jogo" ```IND-CPA``` através do mecanismo de classes do *Pyhton* - Adversário + Cifra ```Identidade```.
 ---
 
 ## **Notas**
