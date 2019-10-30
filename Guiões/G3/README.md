@@ -39,25 +39,25 @@ Por aplicação desta implementação, um texto cifrado inválido não pode serv
   - No algoritmo do método anterior, tratávamos da parte do criptograma e depois do cálculo da *tag* MAC. Ambos eram aplicados sobre o texto limpo.
 
   ```python
-    ...
-    mensagemEncriptada = encryptor.update(textoCifrar)
+...
+mensagemEncriptada = encryptor.update(textoCifrar)
 
-    # Parte HMAC.
-    mac = hmac.HMAC(chaveMAC, hashes.SHA256(), 
-                    backend = default_backend())
+# Parte HMAC.
+mac = hmac.HMAC(chaveMAC, hashes.SHA256(), 
+                backend = default_backend())
     mac.update(textoCifrar)
   ```
 
   - Neste método, o MAC é calculado sobre o criptograma.
 
   ```python
-    ...
-    mensagemEncriptada = encryptor.update(textoCifrar)
+...
+mensagemEncriptada = encryptor.update(textoCifrar)
 
-    # Parte HMAC já com o criptograma.
-    mac = hmac.HMAC(chaveMAC, hashes.SHA256(), 
-                    backend = default_backend())
-    mac.update(mensagemEncriptada)
+# Parte HMAC já com o criptograma.
+mac = hmac.HMAC(chaveMAC, hashes.SHA256(), 
+                backend = default_backend())
+mac.update(mensagemEncriptada)
   ```
 
 - ### **MAC then encrypt**
@@ -65,17 +65,17 @@ Por aplicação desta implementação, um texto cifrado inválido não pode serv
 Este método não fornece qualquer integridade sobre o texto cifrado, pois não existe forma de saber se a mensagem foi "atacada"/modificada até a mesma ser decifrada. Isto acontece porque primeiro é calculado o MAC sobre o texto limpo, e só depois é cifrado (texto limpo e tag de autenticação).
 
   ```python
-    # Parte HMAC para o texto original.
-    mac = hmac.HMAC(chaveMAC, hashes.SHA256(), 
-                    backend = default_backend())
-    mac.update(textoCifrar)
-    tagMAC = mac.finalize()
+# Parte HMAC para o texto original.
+mac = hmac.HMAC(chaveMAC, hashes.SHA256(), 
+                backend = default_backend())
+mac.update(textoCifrar)
+tagMAC = mac.finalize()
 
-    mensagemFinal = tagMAC + textoCifrar 
+mensagemFinal = tagMAC + textoCifrar 
 
-    # Algoritmo Chacha20 para a cifragem de tanto a mensagem como a tagMAC.
-    ...
-    mensagemEncriptada = encryptor.update(mensagemFinal)
+# Algoritmo Chacha20 para a cifragem de tanto a mensagem como a tagMAC.
+...
+mensagemEncriptada = encryptor.update(mensagemFinal)
   ```
 
 Repare-se na criação da *tag* MAC antes mesmo de se cifrar a informação. Essa mesma *tag* é depois concatenada com o texto limpo. Em termos práticos isto implica que caso se queira verificar falhas/erros no criptograma, é necessário desencriptar para se conseguir obter a informação da *tag* MAC.
@@ -91,6 +91,6 @@ Ao desenvolver o terceiro método, o grupo notou que era necessário seguir outr
 Esta ideia foi desenvolvida no terceiro método, fazendo-se a soma em termos de *bytes* das duas primitivas criptográficas. Na fase de desencriptar, apenas foi necessário desencriptar a informação e obter os bits depois dos 32 primeiros correspondentes à *tag* MAC.
 
 ``` python
-  descriptado=decryptor.update(mensagemEncriptada)
-  print(descriptado[32:])
+descriptado=decryptor.update(mensagemEncriptada)
+print(descriptado[32:])
 ```
