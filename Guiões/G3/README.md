@@ -39,8 +39,8 @@ Por aplicação desta implementação, um texto cifrado inválido não pode serv
   - No algoritmo do método anterior, tratávamos da parte do criptograma e depois do cálculo da *tag* MAC. Ambos eram aplicados sobre o texto limpo.
 
   ```python
-      ...
-      mensagemEncriptada = encryptor.update(textoCifrar)
+    ...
+    mensagemEncriptada = encryptor.update(textoCifrar)
 
     # Parte HMAC.
     mac = hmac.HMAC(chaveMAC, hashes.SHA256(), 
@@ -51,8 +51,8 @@ Por aplicação desta implementação, um texto cifrado inválido não pode serv
   - Neste método, o MAC é calculado sobre o criptograma.
 
   ```python
-      ...
-      mensagemEncriptada = encryptor.update(textoCifrar)
+    ...
+    mensagemEncriptada = encryptor.update(textoCifrar)
 
     # Parte HMAC já com o criptograma.
     mac = hmac.HMAC(chaveMAC, hashes.SHA256(), 
