@@ -41,21 +41,19 @@ Este ficheiro representa a classe do Adversário, contendo os dois métodos nece
 
 ```python
 def choose(self, enc_oracle):
-	return enc_oracle(self.m[0]), enc_oracle(self.m[1])
+    return enc_oracle(self.m[0]), enc_oracle(self.m[1])
 ```
 
 - Tendo em conta que o atacante tem acesso ao Enck(.), então ele pode facilmente obter um c0 <- Enck(m0) e um c1 <- Enck(m1). Com estes dois, ele pode fazer uma comparação com o criptograma recebido e perceber a qual das mensagens corresponde.
 
 ```python
 def guess(self, enc_oracle, c):
-	c0 = enc_oracle(self.m[0])
-   	c1 = enc_oracle(self.m[1])
-   	
-	if c == c0: return 0
-	else: return 1
+    c0 = enc_oracle(self.m[0])
+    c1 = enc_oracle(self.m[1])
+
+    if c == c0: return 0
+    else: return 1
 ```
-
-
 
 **2. cifraIdentidade.py**
 
@@ -65,13 +63,11 @@ Neste caso, apenas foi preciso uma função que devolve uma chave aleatória par
 
 ```python
 def keygen(self):
-	return os.urandom(16)
+    return os.urandom(16)
 
 def enc(self, key, text):
-	return text
+    return text
 ```
-
-
 
 **3. programa.py**
 
