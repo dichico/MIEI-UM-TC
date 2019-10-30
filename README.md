@@ -52,4 +52,4 @@ Conseguimos colocar o requisito de guardar a *tag* MAC juntamente com o criptogr
     descriptado = decryptor.update(mensagemFinal[32:])
     print(descriptado)
 ```
-
+- Guião 4 não ficou totalmente entendido/resolvido.
