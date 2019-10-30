@@ -8,7 +8,7 @@ Até então, temos utilizado a cifra autenticada ```Fernet```, que por si só, a
 2. [encrypt then MAC](https://github.com/uminho-miei-crypto/1920-G9/blob/master/Gui%C3%B5es/G3/EncryptThenMAC.py).
 3. [MAC then encrypt](https://github.com/uminho-miei-crypto/1920-G9/blob/master/Gui%C3%B5es/G3/MACThenEncrypt.py).
 
---- 
+---
 
 ## Resolução do Guião
 
@@ -38,7 +38,7 @@ Por aplicação desta implementação, um texto cifrado inválido não pode serv
 
   - No algoritmo do método anterior, tratávamos da parte do criptograma e depois do cálculo da *tag* MAC. Ambos eram aplicados sobre o texto limpo.
 
-  ```
+  ```python
       ...
       mensagemEncriptada = encryptor.update(textoCifrar)
 
@@ -50,7 +50,7 @@ Por aplicação desta implementação, um texto cifrado inválido não pode serv
 
   - Neste método, o MAC é calculado sobre o criptograma.
 
-  ```
+  ```python
       ...
       mensagemEncriptada = encryptor.update(textoCifrar)
 
@@ -64,7 +64,7 @@ Por aplicação desta implementação, um texto cifrado inválido não pode serv
 
 Este método não fornece qualquer integridade sobre o texto cifrado, pois não existe forma de saber se a mensagem foi "atacada"/modificada até a mesma ser decifrada. Isto acontece porque primeiro é calculado o MAC sobre o texto limpo, e só depois é cifrado (texto limpo e tag de autenticação).
 
-  ```
+  ```python
     # Parte HMAC para o texto original.
     mac = hmac.HMAC(chaveMAC, hashes.SHA256(), 
                     backend = default_backend())
@@ -90,7 +90,7 @@ Ao desenvolver o terceiro método, o grupo notou que era necessário seguir outr
 
 Esta ideia foi desenvolvida no terceiro método, fazendo-se a soma em termos de *bytes* das duas primitivas criptográficas. Na fase de desencriptar, apenas foi necessário desencriptar a informação e obter os bits depois dos 32 primeiros correspondentes à *tag* MAC.
 
-``` 
+``` python
   descriptado=decryptor.update(mensagemEncriptada)
   print(descriptado[32:])
 ```

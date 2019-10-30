@@ -57,7 +57,30 @@ def guess(self, enc_oracle, c):
 
 
 
+**2. cifraIdentidade.py**
+
+Este ficheiro representa a classe da cifra em si. É uma classe muito simples, dado que a ideia da cifra é que as função de cifrar/decifrar sejam a própria função identidade. 
+
+Neste caso, apenas foi preciso uma função que devolve uma chave aleatória para simular uma *key* e uma função que com essa mesma *key* e o texto limpo, encripta a informação devolvendo o próprio texto.
+
+```python
+def keygen(self):
+	return os.urandom(16)
+
+def enc(self, key, text):
+	return text
+```
+
+
+
+**3. programa.py**
+
+Pela descrição fornecida pelo docente, aplicaram-se todos os passos na tentativa de simular o modelo de segurança em causa.
+
 ---
 
 ## Observações Finais
 
+Este Guião foi o mais complicado, tendo em conta que não ficou clara a ideia geral daquilo que se esperava desenvolver. Ainda assim, o grupo tentou dar o seu melhor, pesquisando acerca destes modelos de segurança para conseguir ir ao encontro da base do algoritmo deste "programa".
+
+O grupo considera que a resolução apresentada não está 100% válida.
