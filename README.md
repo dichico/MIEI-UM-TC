@@ -44,12 +44,12 @@ Devido a um problema de atualização nos ficheiros README, apenas conseguimos i
 
 Conseguimos colocar o requisito de guardar a *tag* MAC juntamente com o criptograma no mesmo ficheiro para o método **encrypt and MAC** e **encrypt then MAC**. Assim, ao fazer a desencriptação, retiram-se apenas os bits a partir do 32 (MAC).
 
-```
-    # FASE 2 - Desencriptar
+```python
+  # FASE 2 - Desencriptar
 
-    decryptor = cipher.decryptor()
+  decryptor = cipher.decryptor()
 
-    descriptado = decryptor.update(mensagemFinal[32:])
-    print(descriptado)
+  descriptado = decryptor.update(mensagemFinal[32:])
+  print(descriptado)
 ```
 - Guião 4 não ficou totalmente entendido/resolvido.
