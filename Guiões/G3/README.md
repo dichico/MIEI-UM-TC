@@ -45,7 +45,7 @@ mensagemEncriptada = encryptor.update(textoCifrar)
 # Parte HMAC.
 mac = hmac.HMAC(chaveMAC, hashes.SHA256(), 
                 backend = default_backend())
-    mac.update(textoCifrar)
+mac.update(textoCifrar)
   ```
 
   - Neste método, o MAC é calculado sobre o criptograma.
