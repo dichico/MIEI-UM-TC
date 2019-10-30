@@ -3,6 +3,12 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
 
 ---
 
+## **Link para os enunciados dos Guiões**
+
+[**Github Link**](https://github.com/uminho-miei-crypto/1920-TC/blob/master/doc/guioes.md)
+
+---
+
 ## **Composição do Grupo**
 * Diogo Araújo, A78485 - [dichico](https://github.com/dichico)
 * Diogo Nogueira, A78957 - [diogoesnog](https://github.com/diogoesnog)
