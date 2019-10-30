@@ -31,7 +31,7 @@ Esta ideia geral de um ataque ```IND-CPA``` foi transposta para código em *Pyth
 
 
 
-​	**1. adversario.py **
+​	**1. adversario.py**
 
 Este ficheiro representa a classe do Adversário, contendo os dois métodos necessários para que ele faça a escolha dos seus textos limpos e tente adivinhar a qual desses textos pretence o criptograma enviado para si.
 
