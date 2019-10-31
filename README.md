@@ -3,10 +3,6 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
 
 ---
 
-## **Link para os enunciados dos Guiões**
-
----
-
 ## **Composição do Grupo**
 * Diogo Araújo, A78485 - [dichico](https://github.com/dichico)
 * Diogo Nogueira, A78957 - [diogoesnog](https://github.com/diogoesnog)
