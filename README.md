@@ -3,6 +3,12 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
 
 ---
 
+## **Link para os enunciados dos Guiões**
+
+[**Github Link**](https://github.com/uminho-miei-crypto/1920-TC/blob/master/doc/guioes.md)
+
+---
+
 ## **Composição do Grupo**
 * Diogo Araújo, A78485 - [dichico](https://github.com/dichico)
 * Diogo Nogueira, A78957 - [diogoesnog](https://github.com/diogoesnog)
@@ -44,12 +50,12 @@ Devido a um problema de atualização nos ficheiros README, apenas conseguimos i
 
 Conseguimos colocar o requisito de guardar a *tag* MAC juntamente com o criptograma no mesmo ficheiro para o método **encrypt and MAC** e **encrypt then MAC**. Assim, ao fazer a desencriptação, retiram-se apenas os bits a partir do 32 (MAC).
 
+```python
+# FASE 2 - Desencriptar
+
+decryptor = cipher.decryptor()
+
+descriptado = decryptor.update(mensagemFinal[32:])
+print(descriptado)
 ```
-    # FASE 2 - Desencriptar
-
-    decryptor = cipher.decryptor()
-
-    descriptado = decryptor.update(mensagemFinal[32:])
-    print(descriptado)
-```
-
+- Guião 4 não ficou totalmente entendido/resolvido.
