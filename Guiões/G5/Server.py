@@ -23,7 +23,8 @@ class ServerWorker(object):
         self.msg_cnt += 1
     
         decryptMessage = crypt.decrypt(msg)
-        print(decryptMessage)
+
+        print('%d' % self.id + ": " + decryptMessage.decode())
 
         return decryptMessage if len(decryptMessage)>0 else None
 
