@@ -1,39 +1,31 @@
 # Código baseado em https://docs.python.org/3.6/library/asyncio-stream.html#tcp-echo-client-using-streams
+
 import asyncio
+from cryptography.fernet import Fernet
 
 conn_cnt = 0
 conn_port = 8888
 max_msg_size = 9999
 
+crypt = Fernet('sqcyNL5kz2mxWb1KL2QSZWY-GCERE-scEgWBbvq9CCk=')
+
 class ServerWorker(object):
-    """ Classe que implementa a funcionalidade do SERVIDOR. """
+
     def __init__(self, cnt, addr=None):
-        """ Construtor da classe. """
+
         self.id = cnt
         self.addr = addr
         self.msg_cnt = 0
+
     def process(self, msg):
-        """ Processa uma mensagem (`bytestring`) enviada pelo CLIENTE.
-            Retorna a mensagem a transmitir como resposta (`None` para
-            finalizar ligação) """
+
+        # Number of Message
         self.msg_cnt += 1
-        #
-        # ALTERAR AQUI COMPORTAMENTO DO SERVIDOR
-        #        
-        txt = msg.decode()
-        print('%d : %r' % (self.id,txt))
-        new_msg = txt.upper().encode()
-        #
-        return new_msg if len(new_msg)>0 else None
+    
+        decryptMessage = crypt.decrypt(msg)
+        print(decryptMessage)
 
-
-#
-#
-# Funcionalidade Cliente/Servidor
-#
-# obs: não deverá ser necessário alterar o que se segue
-#
-
+        return decryptMessage if len(decryptMessage)>0 else None
 
 @asyncio.coroutine
 def handle_echo(reader, writer):
