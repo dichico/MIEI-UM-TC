@@ -2,12 +2,13 @@
 
 import asyncio
 import socket
+
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.backends import default_backend
 from cryptography.fernet import Fernet
 
 conn_port = 8888
 max_msg_size = 9999
-
-crypt = Fernet('sqcyNL5kz2mxWb1KL2QSZWY-GCERE-scEgWBbvq9CCk=')
 
 class Client:
 
@@ -18,12 +19,28 @@ class Client:
 
     def process(self, msg=b""):
 
-        # Number of Message
+        # Read Key.
+        file = open('key.key', 'rb')
+        key = file.read()
+        file.close()
+
+        # Read Nonce.
+        file = open('nonce.key', 'rb')
+        nonce = file.read()
+        file.close()
+
+        # Number of Message.
         self.msg_cnt +=1
 
         print('Input your message.')
-        new_msg = input().encode()
-        encryptMessage = crypt.encrypt(new_msg)
+        textInput = input().encode()
+
+        # Encrypt Message to send to Server.
+        algorithm = algorithms.ChaCha20(key, nonce)
+        cipher = Cipher(algorithm, mode=None, backend = default_backend())
+
+        encryptor = cipher.encryptor()
+        encryptMessage = encryptor.update(textInput)
         
         return encryptMessage if len(encryptMessage)>0 else None
 

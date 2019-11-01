@@ -1,30 +1,44 @@
 # Código baseado em https://docs.python.org/3.6/library/asyncio-stream.html#tcp-echo-client-using-streams
 
 import asyncio
+import random
+import os
+
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.backends import default_backend
 from cryptography.fernet import Fernet
 
 conn_cnt = 0
 conn_port = 8888
 max_msg_size = 9999
 
-crypt = Fernet('sqcyNL5kz2mxWb1KL2QSZWY-GCERE-scEgWBbvq9CCk=')
+# Random Key with 256 bits to work on ChaCha20.
+key = os.urandom(32)
+
+# Nonce - Not need to be kept secret.
+nonce = os.urandom(16)
 
 class ServerWorker(object):
 
     def __init__(self, cnt, addr=None):
 
-        self.id = cnt
+        self.idClient = cnt
         self.addr = addr
-        self.msg_cnt = 0
+        self.messageCounter = 0
 
     def process(self, msg):
 
-        # Number of Message
-        self.msg_cnt += 1
-    
-        decryptMessage = crypt.decrypt(msg)
+        # Number of Message from Client.
+        self.messageCounter += 1
 
-        print('%d' % self.id + ": " + decryptMessage.decode())
+        # Decrypt Message received from Client.
+        algorithm = algorithms.ChaCha20(key, nonce)
+        cipher = Cipher(algorithm, mode=None, backend = default_backend())
+        
+        decryptor = cipher.decryptor()
+        decryptMessage = decryptor.update(msg)
+
+        print('%d' % self.idClient + ": " + decryptMessage.decode())
 
         return decryptMessage if len(decryptMessage)>0 else None
 
@@ -43,7 +57,7 @@ def handle_echo(reader, writer):
         writer.write(data)
         yield from writer.drain()
         data = yield from reader.read(max_msg_size)
-    print("[%d]" % srvwrk.id)
+    print("[%d]" % srvwrk.idClient)
     writer.close()
 
 
@@ -54,6 +68,17 @@ def run_server():
     # Serve requests until Ctrl+C is pressed
     print('Serving on {}'.format(server.sockets[0].getsockname()))
     print('  (type ^C to finish)\n')
+
+    # Saved to a file - Client use the same key.
+    file = open('key.key', 'wb')
+    file.write(key)
+    file.close()
+
+    # Saved to a file - Cliente use the same nonce.
+    file = open('nonce.key', 'wb')
+    file.write(nonce)
+    file.close()
+
     try:
         loop.run_forever()
     except KeyboardInterrupt:
