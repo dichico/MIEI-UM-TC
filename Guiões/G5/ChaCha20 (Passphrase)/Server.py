@@ -31,12 +31,20 @@ class ServerWorker(object):
         # Number of Message from Client.
         self.messageCounter += 1
 
-        # Decrypt Message received from Client.
-        algorithm = algorithms.ChaCha20(key, nonce)
+        file = open('key' +self.idClient + '.key', 'rb')
+        key = file.read()
+        file.close()
+
+        # Divisão dos 64 bits de chave derivada para a chave de encriptação e para a chave para o MAC.
+        chaveC = key[:32]
+        chaveMAC = key[32:]
+
+        # Algoritmo Chacha20 para a cifragem.
+        algorithm = algorithms.ChaCha20(chaveC, nonce)
         cipher = Cipher(algorithm, mode=None, backend = default_backend())
         
         decryptor = cipher.decryptor()
-        decryptMessage = decryptor.update(msg)
+        decryptMessage = decryptor.update(msg[32:])
 
         print('%d' % self.idClient + ": " + decryptMessage.decode())
 
@@ -68,16 +76,6 @@ def run_server():
     # Serve requests until Ctrl+C is pressed
     print('Serving on {}'.format(server.sockets[0].getsockname()))
     print('  (type ^C to finish)\n')
-
-    # Saved to a file - Client use the same key.
-    file = open('key.key', 'wb')
-    file.write(key)
-    file.close()
-
-    # Saved to a file - Cliente use the same nonce.
-    file = open('nonce.key', 'wb')
-    file.write(nonce)
-    file.close()
 
     try:
         loop.run_forever()
