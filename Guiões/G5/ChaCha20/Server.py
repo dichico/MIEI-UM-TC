@@ -69,16 +69,13 @@ def run_server():
     print('Serving on {}'.format(server.sockets[0].getsockname()))
     print('  (type ^C to finish)\n')
 
-    # Saved to a file - Client use the same key.
-    file = open('key.key', 'wb')
-    file.write(key)
-    file.close()
+    keyAndNonce = key + nonce
 
-    # Saved to a file - Cliente use the same nonce.
-    file = open('nonce.key', 'wb')
-    file.write(nonce)
+    # Saved to a file Key and Nonce - Client use the same key.
+    file = open('keyAndNonce.key', 'wb')
+    file.write(keyAndNonce)
     file.close()
-
+    
     try:
         loop.run_forever()
     except KeyboardInterrupt:
