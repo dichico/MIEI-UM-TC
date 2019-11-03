@@ -19,14 +19,9 @@ class Client:
 
     def process(self, msg=b""):
 
-        # Read Key.
-        file = open('key.key', 'rb')
-        key = file.read()
-        file.close()
-
-        # Read Nonce.
-        file = open('nonce.key', 'rb')
-        nonce = file.read()
+        # Read Key and Nonce.
+        file = open('keyAndNonce.key', 'rb')
+        keyAndNonce = file.read()
         file.close()
 
         # Number of Message.
@@ -36,7 +31,7 @@ class Client:
         textInput = input().encode()
 
         # Encrypt Message to send to Server.
-        algorithm = algorithms.ChaCha20(key, nonce)
+        algorithm = algorithms.ChaCha20(keyAndNonce[:32], keyAndNonce[32:])
         cipher = Cipher(algorithm, mode=None, backend = default_backend())
 
         encryptor = cipher.encryptor()
