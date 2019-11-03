@@ -16,15 +16,13 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
   - Preparação do repositório da Unidade Curricular no ```Github```.
   - Instalação da biblioteca de suporte ```cryptography``` para se usar ao longo dos guiões.
   - Proposta de exercício para se criar uma **cifra autenticada de um ficheiro** através do método de criptografia ```Fernet```.
-
 - **Guião 2** [Protecção de Segredos Criptográficos](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G2)
   - Discussão da necessidade de evitar armazenar segredos criptográficos em ficheiros sem qualquer tipo de proteção.
   - **Estudo de duas estratégias para evitar utilização de ficheiros desprotegidos:**
     - Evitar o armazenamento da chave - *Password Based Key Derivation Functions (PBKDF)*;
     - Armazenar o ficheiro de forma protegida - *KeyStore*.
-
 - **Guião 3** [Implementação de Cifra Autenticada](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G3)
-  - Tentativa de entender como é que as propriedades oferecidas pelo método ```Fernet```(confidencialidade dos dados e integridade da informação) podem ser criadas através de técnicas criptográficas disponíveis.
+  - Tentativa de entender como é que as propriedades oferecidas pelo método ```Fernet```(*confidencialidade* dos dados e *integridade* da informação) podem ser criadas através de técnicas criptográficas disponíveis.
   - **Desenvolvimento de três versões de cifras pela diferente combinação entre uma *cifra simétrica* e de um *MAC*:**
      - encrypt and MAC;
      - encrypt then MAC;
@@ -33,6 +31,10 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
 
     - Animação de modelos de segurança que permitam obter uma ideia de como o(s) ataque(s) à  confidencialidades das cifras pode(m) ocorrer.
     - Desenvolver o "jogo" ```IND-CPA``` através do mecanismo de classes do *Pyhton* - Adversário + Cifra ```Identidade```.
+- **Guião 5** [Comunicação Cliente-Servidor]( [https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G5](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Guiões/G5) )
+
+    - Estabelecer comunicão entre Cliente e Servidor.
+    - Garantir *confidencialidade* e *integridade* nesta comunicação - Uso de Cifras por Blocos.
 ---
 
 ## **Notas**
