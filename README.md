@@ -31,7 +31,7 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
 
     - Animação de modelos de segurança que permitam obter uma ideia de como o(s) ataque(s) à  confidencialidades das cifras pode(m) ocorrer.
     - Desenvolver o "jogo" ```IND-CPA``` através do mecanismo de classes do *Pyhton* - Adversário + Cifra ```Identidade```.
-- **Guião 5** [Comunicação Cliente-Servidor]( [https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G5](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Guiões/G5) )
+- **Guião 5** [Comunicação Cliente-Servidor](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G5)
 
     - Estabelecer comunicão entre Cliente e Servidor.
     - Garantir *confidencialidade* e *integridade* nesta comunicação - Uso de Cifras por Blocos.
