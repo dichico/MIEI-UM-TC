@@ -33,7 +33,7 @@ Para se realizar este guião, foi escolhida a implementação ```Fernet```, dado
    ```python
    # Encrypt Message to send to Server.
    algorithm = algorithms.ChaCha20(keyAndNonce[:32], keyAndNonce[32:])
-cipher = Cipher(algorithm, mode=None, backend = default_backend())
+   cipher = Cipher(algorithm, mode=None, backend = default_backend())
    
    encryptor = cipher.encryptor()
    encryptMessage = encryptor.update(textInput)
