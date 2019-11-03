@@ -12,7 +12,7 @@ Para se realizar este guião, foi escolhida a implementação ```Fernet```, dado
 
 **Assim, existem duas pastas que representam as duas versões do programa:**
 
-1. [**```Fernet```**]( [https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G5/Fernet](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Guiões/G5/Fernet)) - Quando se inicia a classe [Server.py](https://github.com/uminho-miei-crypto/1920-G9/blob/master/Gui%C3%B5es/G5/Fernet/Server.py), guarda-se uma chave ```Fernet``` num ficheiro de texto. Assim, cada classe [Cliente.py](https://github.com/uminho-miei-crypto/1920-G9/blob/master/Gui%C3%B5es/G5/Fernet/Server.py) poderá ter a mesma chave, permitindo que o processo de encriptação e desencriptação ocorra da forma esperada.
+1. [**```Fernet```**]( [https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G5/Fernet](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Guiões/G5/Fernet)) - Quando se inicia a classe [Server.py](https://github.com/uminho-miei-crypto/1920-G9/blob/master/Gui%C3%B5es/G5/Fernet/Server.py), guarda-se uma chave ```Fernet``` num ficheiro de texto. Assim, cada classe [Cliente.py](https://github.com/uminho-miei-crypto/1920-G9/blob/master/Gui%C3%B5es/G5/Fernet/Client.py) poderá ter a mesma chave, permitindo que o processo de encriptação e desencriptação ocorra da forma esperada.
 
    ```python
    # Encrypt Message to send to Server.
@@ -26,9 +26,9 @@ Para se realizar este guião, foi escolhida a implementação ```Fernet```, dado
    decryptMessage = f.decrypt(msg)
    ```
    
-2. [**```Fernet```**]( [https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G5/Fernet](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Guiões/G5/Fernet)) - Quando se inicia a classe [Server.py](https://github.com/uminho-miei-crypto/1920-G9/blob/master/Gui%C3%B5es/G5/Fernet/Server.py), guarda-se uma *key* juntamente com um *nonce* gerados aleatoriamente num ficheiro nomeado de [keyAndNonce.key](). Isto é importante para garantir que o processo de encriptar e desencriptar funcione, já que é necessário que ambos sejam os mesmos nos dois lados do programa. 
+2. [**```Fernet```**]( [https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G5/Fernet](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Guiões/G5/Fernet)) - Quando se inicia a classe [Server.py](https://github.com/uminho-miei-crypto/1920-G9/blob/master/Gui%C3%B5es/G5/ChaCha20/Server.py), guarda-se uma *key* juntamente com um *nonce* gerados aleatoriamente num ficheiro nomeado de [keyAndNonce.key](https://github.com/uminho-miei-crypto/1920-G9/blob/master/Gui%C3%B5es/G5/ChaCha20/keyAndNonce.key). Isto é importante para garantir que o processo de encriptar e desencriptar funcione, já que é necessário que ambos sejam os mesmos nos dois lados do programa. 
 
-   Assim, quando uma classe [Cliente.py]() é inciada, lê-se esse ficheiro e extrai-se individualmente a *key* e o *nonce*, aplicando-se o algoritmo ```ChaCha20``` para se conseguir criar a Cifra essencial a ambos os processos.
+   Assim, quando uma classe [Cliente.py](https://github.com/uminho-miei-crypto/1920-G9/blob/master/Gui%C3%B5es/G5/ChaCha20/Client.py) é inciada, lê-se esse ficheiro e extrai-se individualmente a *key* e o *nonce*, aplicando-se o algoritmo ```ChaCha20``` para se conseguir criar a Cifra essencial a ambos os processos.
    
    ```python
    # Encrypt Message to send to Server.
