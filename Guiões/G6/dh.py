@@ -16,8 +16,9 @@ serverPrivateKey = parameters.generate_private_key()
 # Geração da chave privada do cliente
 clientPrivateKey = parameters.generate_private_key()
 
-# verificação que é a mesma handshake
-sharedKey1 = serverPrivateKey.exchange(clientPrivateKey.public_key())
+# verificação que é a mesma (handshake)
+clientPublicKey = clientPrivateKey.public_key()
+sharedKey1 = serverPrivateKey.exchange(clientPublicKey)
 
 # Key derivation of the shared key
 derived_key = HKDF(
@@ -28,13 +29,12 @@ info=b'handshake data',
 backend=default_backend()
 ).derive(sharedKey1)
 
-# And now we can demonstrate that the handshake performed in the
-# opposite direction gives the same final value
 
-sharedKey2 = clientPrivateKey.exchange(
-serverPrivateKey.public_key()
-)
+# a mesma chave shared, agora ao contrário
+serverPublicKey = serverPrivateKey.public_key()
+sharedKey2 = clientPrivateKey.exchange(serverPublicKey)
 
+# derivar essa também
 same_derived_key = HKDF(
 algorithm=hashes.SHA256(),
 length=32,
@@ -43,4 +43,5 @@ info=b'handshake data',
 backend=default_backend()
 ).derive(sharedKey2)
 
+# ver que são iguais
 print(derived_key == same_derived_key)
