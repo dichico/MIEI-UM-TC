@@ -3,6 +3,7 @@
 import asyncio
 import socket
 
+from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 from cryptography.fernet import Fernet
@@ -31,11 +32,8 @@ class Client:
         textInput = input().encode()
 
         # Encrypt Message to send to Server.
-        algorithm = algorithms.ChaCha20(keyAndNonce[:32], keyAndNonce[32:])
-        cipher = Cipher(algorithm, mode=None, backend = default_backend())
-
-        encryptor = cipher.encryptor()
-        encryptMessage = encryptor.update(textInput)
+        chacha = ChaCha20Poly1305(keyAndNonce[:32])
+        encryptMessage = chacha.encrypt(keyAndNonce[32:], textInput, None)
         
         return encryptMessage if len(encryptMessage)>0 else None
 

@@ -4,6 +4,7 @@ import asyncio
 import random
 import os
 
+from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 from cryptography.fernet import Fernet
@@ -13,10 +14,10 @@ conn_port = 8888
 max_msg_size = 9999
 
 # Random Key with 256 bits to work on ChaCha20.
-key = os.urandom(32)
+key = ChaCha20Poly1305.generate_key()
 
 # Nonce - Not need to be kept secret.
-nonce = os.urandom(16)
+nonce = os.urandom(12)
 
 class ServerWorker(object):
 
@@ -32,11 +33,8 @@ class ServerWorker(object):
         self.messageCounter += 1
 
         # Decrypt Message received from Client.
-        algorithm = algorithms.ChaCha20(key, nonce)
-        cipher = Cipher(algorithm, mode=None, backend = default_backend())
-        
-        decryptor = cipher.decryptor()
-        decryptMessage = decryptor.update(msg)
+        chacha = ChaCha20Poly1305(key)
+        decryptMessage = chacha.decrypt(nonce, msg, None)
 
         print('%d' % self.idClient + ": " + decryptMessage.decode())
 
@@ -68,7 +66,7 @@ def run_server():
     # Serve requests until Ctrl+C is pressed
     print('Serving on {}'.format(server.sockets[0].getsockname()))
     print('  (type ^C to finish)\n')
-
+    
     keyAndNonce = key + nonce
 
     # Saved to a file Key and Nonce - Client use the same key.
