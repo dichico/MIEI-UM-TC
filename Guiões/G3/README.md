@@ -91,6 +91,6 @@ Ao desenvolver o terceiro método, o grupo notou que era necessário seguir outr
 Esta ideia foi desenvolvida no terceiro método, fazendo-se a soma em termos de *bytes* das duas primitivas criptográficas. Na fase de desencriptar, apenas foi necessário desencriptar a informação e obter os bits depois dos 32 primeiros correspondentes à *tag* MAC.
 
 ``` python
-descriptado=decryptor.update(mensagemEncriptada)
-print(descriptado[32:])
+desencriptado = decryptor.update(mensagemEncriptada)
+print(desencriptado[32:])
 ```
