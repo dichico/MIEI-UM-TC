@@ -63,5 +63,5 @@ fileCrypt.close()
 decryptor  = cipher.decryptor()
 
 # Não sei separar a tagMAC do resto porque não sei o tamanho
-descriptado=decryptor.update(mensagemEncriptada)
-print(descriptado[32:])
+desencriptado = decryptor.update(mensagemEncriptada)
+print(desencriptado[32:])
