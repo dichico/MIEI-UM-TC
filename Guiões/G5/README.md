@@ -42,7 +42,7 @@ Para se realizar este guião, foi escolhida a implementação ```Fernet```, dado
    decryptMessage = chacha.decrypt(nonce, msg, None)
    ```
 
-3. [**```AES-CCM ```**](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G5/AES-GCM) - O processo em si é similar ao anterior, tendo em conta que se gera também uma *key* e um *nonce* usado pelas duas classes. A única diferença é nos métodos próprios da classe ```AES-CCM ``` ao nível do ```Python```.
+3. [**```AES-CCM```**](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G5/AES-GCM) - O processo em si é similar ao anterior, tendo em conta que se gera também uma *key* e um *nonce* usado pelas duas classes. A única diferença é nos métodos próprios da classe ```AES-CCM ``` ao nível do ```Python```.
    
    ```python
    # Encrypt Message to send to Server.
