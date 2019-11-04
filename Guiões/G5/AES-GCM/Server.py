@@ -1,20 +1,16 @@
 # Código baseado em https://docs.python.org/3.6/library/asyncio-stream.html#tcp-echo-client-using-streams
 
 import asyncio
-import random
 import os
 
-from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from cryptography.hazmat.backends import default_backend
-from cryptography.fernet import Fernet
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 conn_cnt = 0
 conn_port = 8888
 max_msg_size = 9999
 
-# Random Key with 256 bits to work on ChaCha20.
-key = ChaCha20Poly1305.generate_key()
+# Random Key with 128 bits.
+key = AESGCM.generate_key(bit_length=128)
 
 # Nonce - Not need to be kept secret.
 nonce = os.urandom(12)
@@ -33,8 +29,8 @@ class ServerWorker(object):
         self.messageCounter += 1
 
         # Decrypt Message received from Client.
-        chacha = ChaCha20Poly1305(key)
-        decryptMessage = chacha.decrypt(nonce, msg, None)
+        aesgcm = AESGCM(key)
+        decryptMessage = aesgcm.decrypt(nonce, msg, None)
 
         print('%d' % self.idClient + ": " + decryptMessage.decode())
 

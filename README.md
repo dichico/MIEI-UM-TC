@@ -56,3 +56,6 @@ descriptado = decryptor.update(mensagemFinal[32:])
 print(descriptado)
 ```
 - Guião 4 não ficou totalmente entendido/resolvido.
+- Guião 5 alterado de ```ChaCha20``` para ```ChaCha20Poly1305```. 
+
+Adição da Cifra ```AES-CCM```, dado que assim estamos efetivamente a usar uma Cifra por Blocos, onde se garante a *confidencialidade* e a *integridade*.

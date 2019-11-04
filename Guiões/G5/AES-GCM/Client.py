@@ -3,10 +3,7 @@
 import asyncio
 import socket
 
-from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from cryptography.hazmat.backends import default_backend
-from cryptography.fernet import Fernet
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 conn_port = 8888
 max_msg_size = 9999
@@ -32,8 +29,8 @@ class Client:
         textInput = input().encode()
 
         # Encrypt Message to send to Server.
-        chacha = ChaCha20Poly1305(keyAndNonce[:32])
-        encryptMessage = chacha.encrypt(keyAndNonce[32:], textInput, None)
+        aesgcm = AESGCM(keyAndNonce[:16])
+        encryptMessage = aesgcm.encrypt(keyAndNonce[16:], textInput, None)
         
         return encryptMessage if len(encryptMessage)>0 else None
 
