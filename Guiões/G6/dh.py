@@ -21,7 +21,7 @@ clientPublicKey = clientPrivateKey.public_key()
 sharedKey1 = serverPrivateKey.exchange(clientPublicKey)
 
 # Key derivation of the shared key
-derived_key = HKDF(
+derivedKey1 = HKDF(
 algorithm=hashes.SHA256(),
 length=32,
 salt=None,
@@ -35,7 +35,7 @@ serverPublicKey = serverPrivateKey.public_key()
 sharedKey2 = clientPrivateKey.exchange(serverPublicKey)
 
 # derivar essa também
-same_derived_key = HKDF(
+derivedKey2 = HKDF(
 algorithm=hashes.SHA256(),
 length=32,
 salt=None,
@@ -44,4 +44,4 @@ backend=default_backend()
 ).derive(sharedKey2)
 
 # ver que são iguais
-print(derived_key == same_derived_key)
+print(derivedKey1 == derivedKey2)
