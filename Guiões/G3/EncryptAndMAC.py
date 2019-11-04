@@ -62,5 +62,5 @@ fileCrypt.close()
 
 decryptor = cipher.decryptor()
 
-descriptado = decryptor.update(mensagemFinal[32:])
-print(descriptado)
+desencriptado = decryptor.update(mensagemFinal[32:])
+print(desencriptado)
