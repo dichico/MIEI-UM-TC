@@ -52,8 +52,8 @@ Conseguimos colocar o requisito de guardar a *tag* MAC juntamente com o criptogr
 
 decryptor = cipher.decryptor()
 
-descriptado = decryptor.update(mensagemFinal[32:])
-print(descriptado)
+desencriptado = decryptor.update(mensagemFinal[32:])
+print(desencriptado)
 ```
 - Guião 4 não ficou totalmente entendido/resolvido.
 - Guião 5 alterado de ```ChaCha20``` para ```ChaCha20Poly1305```. 
