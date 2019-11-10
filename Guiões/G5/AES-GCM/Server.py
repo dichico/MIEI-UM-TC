@@ -51,7 +51,7 @@ def handle_echo(reader, writer):
         writer.write(data)
         yield from writer.drain()
         data = yield from reader.read(max_msg_size)
-    print("[%d]" % srvwrk.idClient)
+    print("[%d]" % srvwrk.idClient + "left.")
     writer.close()
 
 
@@ -78,6 +78,6 @@ def run_server():
     server.close()
     loop.run_until_complete(server.wait_closed())
     loop.close()
-    print('\nFINISHED!')
+    print('\n Server stopped!')
 
 run_server()

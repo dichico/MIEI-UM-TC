@@ -20,7 +20,7 @@ clientPrivateKey = parameters.generate_private_key()
 clientPublicKey = clientPrivateKey.public_key()
 sharedKey1 = serverPrivateKey.exchange(clientPublicKey)
 
-# Derivação da shared key
+# Derivação da shared key com 32 bytes ou seja 256 bits (mais seguro)
 derivedKey1 = HKDF(
 algorithm=hashes.SHA256(),
 length=32,
