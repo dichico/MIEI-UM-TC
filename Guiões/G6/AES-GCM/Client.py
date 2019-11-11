@@ -85,12 +85,12 @@ def tcp_echo_client(loop=None):
     sharedKey = clientPrivateKey.exchange(publicKeyServer)
     print(sharedKey)
     
-    msg = client.process()
+    msg = client.process(sharedKey=sharedKey)
     while msg:
         writer.write(msg)
         msg = yield from reader.read(max_msg_size)
         if msg :
-            msg = client.process(msg, sharedKey)
+            msg = client.process(msg=msg, sharedKey=sharedKey)
         else:
             break
     writer.write(b'\n')
