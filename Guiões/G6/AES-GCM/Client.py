@@ -59,6 +59,7 @@ class Client:
         padder = padding.PKCS7(128).padder()
         textInput = padder.update(textInput) + padder.finalize()
         print(textInput)
+        
         encryptMessage = encryptor.update(textInput) + encryptor.finalize()
         
         return encryptMessage if len(encryptMessage)>0 else None
