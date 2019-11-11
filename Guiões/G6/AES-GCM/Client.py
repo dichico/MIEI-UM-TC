@@ -24,7 +24,7 @@ clientPrivateKey = parameters.generate_private_key()
 clientPublicKey = clientPrivateKey.public_key()
 
 # IV
-iv = os.urandom(16)
+iv = b'\x8f\x84\x82\xb0\xfc\x19\xe4!\xd6\xf3"\xce\x87o\xe4}'
 
 conn_port = 8888
 max_msg_size = 9999
@@ -47,7 +47,7 @@ class Client:
         derivedKey = HKDF(
         algorithm=hashes.SHA256(),
         length=32,
-        salt=None,
+        salt=b'\x8f\x84\x82\xb0\xfc\x19\xe4!\xd6\xf3"\xce\x87o\xe4}',
         info=b'handshake data',
         backend=default_backend()
         ).derive(sharedKey)
@@ -83,7 +83,7 @@ def tcp_echo_client(loop=None):
     publicKeyBytes = yield from reader.read(max_msg_size)
     publicKeyServer = load_pem_public_key(publicKeyBytes, backend=default_backend())
     sharedKey = clientPrivateKey.exchange(publicKeyServer)
-    print(sharedKey)
+    #print(sharedKey)
     
     msg = client.process(sharedKey=sharedKey)
     while msg:

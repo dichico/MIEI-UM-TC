@@ -24,7 +24,7 @@ serverPrivateKey = parameters.generate_private_key()
 serverPublicKey = serverPrivateKey.public_key()
 
 # IV
-iv = os.urandom(16)
+iv = b'\x8f\x84\x82\xb0\xfc\x19\xe4!\xd6\xf3"\xce\x87o\xe4}'
 
 conn_cnt = 0
 conn_port = 8888
@@ -38,7 +38,6 @@ class ServerWorker(object):
         self.messageCounter = 0
 
     def process(self, msg, sharedKey):
-        print(sharedKey)
         # Número da mensagem.
         self.messageCounter += 1
 
@@ -46,7 +45,7 @@ class ServerWorker(object):
         derivedKey = HKDF(
         algorithm=hashes.SHA256(),
         length=32,
-        salt=None,
+        salt=b'\x8f\x84\x82\xb0\xfc\x19\xe4!\xd6\xf3"\xce\x87o\xe4}',
         info=b'handshake data',
         backend=default_backend()
         ).derive(sharedKey)
@@ -60,7 +59,7 @@ class ServerWorker(object):
         # Efetuar o unpadding - está a dar erro
         unpadder = padding.PKCS7(128).unpadder()
         decryptMessage = unpadder.update(decryptMessage) + unpadder.finalize()
-
+        print(decryptMessage)
         print('%d' % self.idClient + ": " + decryptMessage.decode())
 
         return decryptMessage if len(decryptMessage)>0 else None
@@ -80,7 +79,7 @@ def handle_echo(reader, writer):
     publicKeyBytes = yield from reader.read(max_msg_size)
     publicKeyServer = load_pem_public_key(publicKeyBytes, backend=default_backend())
     sharedKey = serverPrivateKey.exchange(publicKeyServer)
-    print(sharedKey)
+    #print(sharedKey)
 
 
     data = yield from reader.read(max_msg_size)
