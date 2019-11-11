@@ -7,6 +7,8 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from cryptography.hazmat.primitives.asymmetric import dh
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
+from cryptography.hazmat.primitives.serialization import load_pem_public_key, PublicFormat, Encoding
+
 
 # Número primo e valor de gerador dado pelo guião
 P = 99494096650139337106186933977618513974146274831566768179581759037259788798151499814653951492724365471316253651463342255785311748602922458795201382445323499931625451272600173180136123245441204133515800495917242011863558721723303661523372572477211620144038809673692512025566673746993593384600667047373692203583
@@ -35,13 +37,10 @@ class ServerWorker(object):
         self.addr = addr
         self.messageCounter = 0
 
-    def process(self, msg):
+    def process(self, msg, sharedKey):
 
         # Number of Message from Client.
         self.messageCounter += 1
-
-        if self.messageCounter == 1: 
-            sharedKey = serverPrivateKey.exchange(msg)
 
         # Decrypt Message received from Client.
         aesgcm = AESGCM(sharedKey)
@@ -57,11 +56,21 @@ def handle_echo(reader, writer):
     conn_cnt +=1
     addr = writer.get_extra_info('peername')
     srvwrk = ServerWorker(conn_cnt, addr)
+    
+    # Enviar a chave pública para o cliente que entrou.
+    publicKeyEnviar = serverPublicKey.public_bytes(Encoding.PEM, PublicFormat.SubjectPublicKeyInfo)
+    writer.write(publicKeyEnviar)
+
+    # Receber a chave pública do Cliente para a criação da Shared Key.
+    publicKeyBytes = yield from reader.read(max_msg_size)
+    publicKeyServer = load_pem_public_key(publicKeyBytes, backend=default_backend())
+    sharedKey = serverPrivateKey.exchange(publicKeyServer)
+
     data = yield from reader.read(max_msg_size)
     while True:
         if not data: continue
         if data[:1]==b'\n': break
-        data = srvwrk.process(data)
+        data = srvwrk.process(data, sharedKey)
         if not data: break
         writer.write(data)
         yield from writer.drain()
