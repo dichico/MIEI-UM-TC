@@ -52,14 +52,10 @@ class Client:
         backend=default_backend()
         ).derive(sharedKey)
 
-        # Efetuar padding para o bloco AES (128 bits)
-        padder = padding.PKCS7(128).padder()
-        textInput = padder.update(textInput) + padder.finalize()
-        
         # Encriptar a mensagem para mandar ao servidor.
-        cipher = Cipher(algorithms.AES(derivedKey), modes.CBC(iv), backend=default_backend())
+        cipher = Cipher(algorithms.AES(derivedKey), modes.CFB(iv), backend=default_backend())
         encryptor = cipher.encryptor()
-        print(textInput)
+        
         encryptMessage = encryptor.update(textInput) + encryptor.finalize()
         
         return encryptMessage if len(encryptMessage)>0 else None

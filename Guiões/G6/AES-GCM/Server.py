@@ -51,15 +51,10 @@ class ServerWorker(object):
         ).derive(sharedKey)
 
         # Desencriptar a mensagem vinda do cliente.
-        cipher = Cipher(algorithms.AES(derivedKey), modes.CBC(iv), backend=default_backend())
+        cipher = Cipher(algorithms.AES(derivedKey), modes.CFB(iv), backend=default_backend())
         decryptor = cipher.decryptor()
         decryptMessage = decryptor.update(msg) + decryptor.finalize()
-        print(decryptMessage)
         
-        # Efetuar o unpadding - está a dar erro
-        unpadder = padding.PKCS7(128).unpadder()
-        decryptMessage = unpadder.update(decryptMessage) + unpadder.finalize()
-        print(decryptMessage)
         print('%d' % self.idClient + ": " + decryptMessage.decode())
 
         return decryptMessage if len(decryptMessage)>0 else None
@@ -79,8 +74,6 @@ def handle_echo(reader, writer):
     publicKeyBytes = yield from reader.read(max_msg_size)
     publicKeyServer = load_pem_public_key(publicKeyBytes, backend=default_backend())
     sharedKey = serverPrivateKey.exchange(publicKeyServer)
-    #print(sharedKey)
-
 
     data = yield from reader.read(max_msg_size)
     while True:
