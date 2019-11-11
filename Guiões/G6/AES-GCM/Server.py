@@ -26,6 +26,11 @@ serverPublicKey = serverPrivateKey.public_key()
 # Nonce - Not need to be kept secret.
 nonce = os.urandom(12)
 
+# Write Nonce.
+file = open('nonce.key', 'wb')
+file.write(nonce)
+file.close()
+
 conn_cnt = 0
 conn_port = 8888
 max_msg_size = 9999
@@ -42,8 +47,17 @@ class ServerWorker(object):
         # Number of Message from Client.
         self.messageCounter += 1
 
+        # Derivação da shared key com 32 bytes ou seja 256 bits (mais seguro)
+        derivedKey = HKDF(
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=None,
+        info=b'handshake data',
+        backend=default_backend()
+        ).derive(sharedKey)
+
         # Decrypt Message received from Client.
-        aesgcm = AESGCM(sharedKey)
+        aesgcm = AESGCM(derivedKey)
         decryptMessage = aesgcm.decrypt(nonce, msg, None)
 
         print('%d' % self.idClient + ": " + decryptMessage.decode())

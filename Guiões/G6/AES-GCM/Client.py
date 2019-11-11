@@ -22,6 +22,11 @@ clientPrivateKey = parameters.generate_private_key()
 # Geração da chave pública do cliente
 clientPublicKey = clientPrivateKey.public_key()
 
+# Buscar o mesmo nonce
+file = open('nonce.key', 'rb')
+nonce = file.read()
+file.close()
+
 conn_port = 8888
 max_msg_size = 9999
 class Client:
@@ -39,9 +44,18 @@ class Client:
         print('Input your message.')
         textInput = input().encode()
 
+        # Derivação da shared key com 32 bytes ou seja 256 bits (mais seguro)
+        derivedKey = HKDF(
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=None,
+        info=b'handshake data',
+        backend=default_backend()
+        ).derive(sharedKey)
+
         # Encrypt Message to send to Server.
-        aesgcm = AESGCM(sharedKey)
-        encryptMessage = aesgcm.encrypt(sharedKey, textInput, None)
+        aesgcm = AESGCM(derivedKey)
+        encryptMessage = aesgcm.encrypt(nonce, textInput, None)
         
         return encryptMessage if len(encryptMessage)>0 else None
 
