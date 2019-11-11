@@ -36,14 +36,14 @@ class Client:
         self.msg_cnt = 0
 
     def process(self, msg=b"", sharedKey=b""):
-        # Number of Message.
+        # Número da mensagem
         self.msg_cnt +=1
 
         print('Input your message.')
         textInput = input().encode()
 
 
-        # Derivação da shared key com 32 bytes ou seja 256 bits (mais seguro)
+        # Derivação da shared key para 32 bytes ou seja 256 bits (mais seguro)
         derivedKey = HKDF(
         algorithm=hashes.SHA256(),
         length=32,
@@ -52,14 +52,14 @@ class Client:
         backend=default_backend()
         ).derive(sharedKey)
 
-        # Encrypt Message to send to Server.
-        cipher = Cipher(algorithms.AES(derivedKey), modes.CBC(iv), backend=default_backend())
-        encryptor = cipher.encryptor()
-
+        # Efetuar padding para o bloco AES (128 bits)
         padder = padding.PKCS7(128).padder()
         textInput = padder.update(textInput) + padder.finalize()
-        print(textInput)
         
+        # Encriptar a mensagem para mandar ao servidor.
+        cipher = Cipher(algorithms.AES(derivedKey), modes.CBC(iv), backend=default_backend())
+        encryptor = cipher.encryptor()
+        print(textInput)
         encryptMessage = encryptor.update(textInput) + encryptor.finalize()
         
         return encryptMessage if len(encryptMessage)>0 else None
@@ -75,7 +75,7 @@ def tcp_echo_client(loop=None):
     addr = writer.get_extra_info('peername')
     client = Client(addr)
 
-    # Enviar a chave pública para o cliente que entrou.
+    # Enviar a chave pública para o servidor.
     publicKeyEnviar = clientPublicKey.public_bytes(Encoding.PEM, PublicFormat.SubjectPublicKeyInfo)
     writer.write(publicKeyEnviar)
 

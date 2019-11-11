@@ -39,10 +39,10 @@ class ServerWorker(object):
 
     def process(self, msg, sharedKey):
         print(sharedKey)
-        # Number of Message from Client.
+        # Número da mensagem.
         self.messageCounter += 1
 
-        # Derivação da shared key com 32 bytes ou seja 256 bits (mais seguro)
+        # Derivação da shared key para 32 bytes ou seja 256 bits (mais seguro)
         derivedKey = HKDF(
         algorithm=hashes.SHA256(),
         length=32,
@@ -51,12 +51,13 @@ class ServerWorker(object):
         backend=default_backend()
         ).derive(sharedKey)
 
-        # Decrypt message from Client.
+        # Desencriptar a mensagem vinda do cliente.
         cipher = Cipher(algorithms.AES(derivedKey), modes.CBC(iv), backend=default_backend())
         decryptor = cipher.decryptor()
         decryptMessage = decryptor.update(msg) + decryptor.finalize()
         print(decryptMessage)
         
+        # Efetuar o unpadding - está a dar erro
         unpadder = padding.PKCS7(128).unpadder()
         decryptMessage = unpadder.update(decryptMessage) + unpadder.finalize()
 
