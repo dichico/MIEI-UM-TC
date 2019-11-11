@@ -3,8 +3,8 @@ import asyncio
 import os
 
 from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from cryptography.hazmat.primitives import hashes, padding
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives.asymmetric import dh
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 from cryptography.hazmat.primitives.serialization import load_pem_public_key, PublicFormat, Encoding
@@ -23,13 +23,8 @@ serverPrivateKey = parameters.generate_private_key()
 # Chave pública do servidor
 serverPublicKey = serverPrivateKey.public_key()
 
-# Nonce - Not need to be kept secret.
-nonce = os.urandom(12)
-
-# Write Nonce.
-file = open('nonce.key', 'wb')
-file.write(nonce)
-file.close()
+# IV
+iv = os.urandom(16)
 
 conn_cnt = 0
 conn_port = 8888
@@ -43,7 +38,7 @@ class ServerWorker(object):
         self.messageCounter = 0
 
     def process(self, msg, sharedKey):
-
+        print(sharedKey)
         # Number of Message from Client.
         self.messageCounter += 1
 
@@ -56,9 +51,13 @@ class ServerWorker(object):
         backend=default_backend()
         ).derive(sharedKey)
 
-        # Decrypt Message received from Client.
-        aesgcm = AESGCM(derivedKey)
-        decryptMessage = aesgcm.decrypt(nonce, msg, None)
+        # Decrypt message from Client.
+        cipher = Cipher(algorithms.AES(derivedKey), modes.CBC(iv), backend=default_backend())
+        decryptor = cipher.decryptor()
+        decryptMessage = decryptor.update(msg) + decryptor.finalize()
+        print(decryptMessage)
+        unpadder = padding.PKCS7(128).unpadder()
+        decryptMessage = unpadder.update(decryptMessage) + unpadder.finalize()
 
         print('%d' % self.idClient + ": " + decryptMessage.decode())
 
@@ -79,6 +78,8 @@ def handle_echo(reader, writer):
     publicKeyBytes = yield from reader.read(max_msg_size)
     publicKeyServer = load_pem_public_key(publicKeyBytes, backend=default_backend())
     sharedKey = serverPrivateKey.exchange(publicKeyServer)
+    print(sharedKey)
+
 
     data = yield from reader.read(max_msg_size)
     while True:

@@ -1,12 +1,13 @@
 # Código baseado em https://docs.python.org/3.6/library/asyncio-stream.html#tcp-echo-client-using-streams
-
 import asyncio
 import socket
+import os
+
 from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives import hashes, padding
 from cryptography.hazmat.primitives.asymmetric import dh
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
-from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives.serialization import load_pem_public_key, PublicFormat, Encoding
 
 # Número primo e valor de gerador dado pelo guião
@@ -22,10 +23,8 @@ clientPrivateKey = parameters.generate_private_key()
 # Geração da chave pública do cliente
 clientPublicKey = clientPrivateKey.public_key()
 
-# Buscar o mesmo nonce
-file = open('nonce.key', 'rb')
-nonce = file.read()
-file.close()
+# IV
+iv = os.urandom(16)
 
 conn_port = 8888
 max_msg_size = 9999
@@ -37,12 +36,12 @@ class Client:
         self.msg_cnt = 0
 
     def process(self, msg=b"", sharedKey=b""):
-
         # Number of Message.
         self.msg_cnt +=1
 
         print('Input your message.')
         textInput = input().encode()
+
 
         # Derivação da shared key com 32 bytes ou seja 256 bits (mais seguro)
         derivedKey = HKDF(
@@ -54,8 +53,13 @@ class Client:
         ).derive(sharedKey)
 
         # Encrypt Message to send to Server.
-        aesgcm = AESGCM(derivedKey)
-        encryptMessage = aesgcm.encrypt(nonce, textInput, None)
+        cipher = Cipher(algorithms.AES(derivedKey), modes.CBC(iv), backend=default_backend())
+        encryptor = cipher.encryptor()
+
+        padder = padding.PKCS7(128).padder()
+        textInput = padder.update(textInput) + padder.finalize()
+        print(textInput)
+        encryptMessage = encryptor.update(textInput) + encryptor.finalize()
         
         return encryptMessage if len(encryptMessage)>0 else None
 
@@ -78,6 +82,7 @@ def tcp_echo_client(loop=None):
     publicKeyBytes = yield from reader.read(max_msg_size)
     publicKeyServer = load_pem_public_key(publicKeyBytes, backend=default_backend())
     sharedKey = clientPrivateKey.exchange(publicKeyServer)
+    print(sharedKey)
     
     msg = client.process()
     while msg:
