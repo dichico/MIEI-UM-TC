@@ -52,7 +52,7 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
     
       
     
-    *(Aplicação de outras Cifras apenas para aplicação e entendimento do conceito desta comunicação entre Cliente e Servidor.)*
+    *(Aplicação de outras Cifras apenas para prática e entendimento do conceito desta comunicação entre Cliente e Servidor.)*
     
     
 
