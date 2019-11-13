@@ -22,6 +22,7 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
 - **Guião 2** [Protecção de Segredos Criptográficos](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G2)
   - Discussão da necessidade de evitar armazenar segredos criptográficos em ficheiros sem qualquer tipo de proteção.
   - **Estudo de duas estratégias para evitar utilização de ficheiros desprotegidos:**
+  
     - Evitar o armazenamento da chave - *Password Based Key Derivation Functions (PBKDF)*;
     
     - Armazenar o ficheiro de forma protegida - *KeyStore*.
@@ -31,8 +32,11 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
 - **Guião 3** [Implementação de Cifra Autenticada](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G3)
   - Tentativa de entender como é que as propriedades oferecidas pelo método ```Fernet```(*confidencialidade* dos dados e *integridade* da informação) podem ser criadas através de técnicas criptográficas disponíveis.
   - **Desenvolvimento de três versões de cifras pela diferente combinação entre uma *cifra simétrica* e de um *MAC*:**
+  
      - encrypt and MAC;
+     
      - encrypt then MAC;
+     
      - MAC then encrypt.
      
      
