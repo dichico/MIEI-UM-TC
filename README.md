@@ -51,7 +51,6 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
 - **Guião 5** [Comunicação Cliente-Servidor](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G5)
 
     - Estabelecer comunicão entre Cliente e Servidor.
-    
     - Uso da Cifra por Blocos ```AES``` no modo ```CGM```, garantindo-se assim a *confidencialidade* e *integridade* na comunicação entre Cliente e Servidor.
     
       
