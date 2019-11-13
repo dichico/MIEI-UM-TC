@@ -48,7 +48,7 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
 
     - Estabelecer comunicão entre Cliente e Servidor.
     
-    - Uso da Cifra por Blocos AES no modo CGM, garantindo-se assim a *confidencialidade* e *integridade* na comunicação entre Cliente e Servidor.
+    - Uso da Cifra por Blocos ```AES``` no modo ```CGM```, garantindo-se assim a *confidencialidade* e *integridade* na comunicação entre Cliente e Servidor.
     
       
     
@@ -57,7 +57,8 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
     
 
 - **Guião 6** [Protocolo *Diffie-Hellman*](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G6)
-  - Continuação do uso da Cifra AES no modo GCM, aplicando-se ainda o protocolo *Diffie-Hellman* para se efetuar a troca das chaves criptográficas (através de uma chave pública) entre o Cliente e Servidor.
+  
+  - Continuação do uso da Cifra ```AES``` no modo ```GCM```, aplicando-se ainda o protocolo *Diffie-Hellman* para se efetuar a troca das chaves criptográficas (através de uma chave pública) entre o Cliente e Servidor.
 
 ---
 
