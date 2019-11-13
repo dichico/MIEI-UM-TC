@@ -8,9 +8,9 @@ Neste guião pretende-se garantir simultaneamente a *confidencialidade* dos dado
 
 ## Resolução do Guião
 
-Para se realizar este guião, foi escolhida a implementação ```Fernet```, dado que sabemos que garante aquilo que é pedido. Alternativamente, usa-se também a Cifra ```ChaCha20Poly1305```, visto que é um cifra combinada com um MAC, garantindo assim a *integridade* da informação.
+Para a prática da ideia da comunicação entre Cliente e Servidor, foi incialmente implementada a Cifra ```Fernet```, seguida da Cifra ```ChaCha20Poly1305```, que é combinada com um MAC, garantindo assim a *integridade* da informação. Por mim, de modo a se corresponder ao que realmente era pedido e se usar uma Cifra por Blocos, foi implementada a Cifra ```AES-CGM```.
 
-**Assim, existem duas pastas que representam as duas versões do programa:**
+**Assim, existem três pastas que representam as três versões do programa:**
 
 1. [**```Fernet```**](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Guiões/G5/Fernet) - Quando se inicia a classe [Server.py](https://github.com/uminho-miei-crypto/1920-G9/blob/master/Gui%C3%B5es/G5/Fernet/Server.py), guarda-se uma chave ```Fernet``` num ficheiro de texto. Assim, cada classe [Cliente.py](https://github.com/uminho-miei-crypto/1920-G9/blob/master/Gui%C3%B5es/G5/Fernet/Client.py) poderá ter a mesma chave, permitindo que o processo de encriptação e desencriptação ocorra da forma esperada.
 
@@ -55,7 +55,6 @@ Para se realizar este guião, foi escolhida a implementação ```Fernet```, dado
    aesgcm = AESGCM(key)
    decryptMessage = aesgcm.decrypt(nonce, msg, None)
    ```
-
 
 ---
 
