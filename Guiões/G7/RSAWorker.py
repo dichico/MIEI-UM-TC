@@ -1,6 +1,6 @@
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
-from cryptography.hazmat.primitives.serialization import load_pem_private_key, Encoding, PrivateFormat, NoEncryption
+from cryptography.hazmat.primitives.serialization import load_pem_private_key, load_pem_public_key, Encoding, PrivateFormat, NoEncryption, PublicFormat
 from cryptography.hazmat.primitives import hashes
 from cryptography.exceptions import InvalidSignature
 
@@ -18,21 +18,29 @@ class RSAWorker(object):
 
 
     # Salvar a Chave Privada do Servidor ou Cliente fazendo já a Serialization.
-    def saveRSAPrivateKey(self):
+    def saveRSAKeys(self):
         
-        rsaPrivateKey = self.rsaPrivateKey.private_bytes(
+        privateBytes = self.rsaPrivateKey.private_bytes(
             encoding=Encoding.PEM,
             format=PrivateFormat.TraditionalOpenSSL,
             encryption_algorithm=NoEncryption()
         )
 
-        if(self.flag==0): nomeFicheiro = "serverPK"
-        else: nomeFicheiro = "clientPK"
+        publicBytes = self.rsaPublicKey.public_bytes(encoding=Encoding.PEM,
+            format=PublicFormat.SubjectPublicKeyInfo)
+
+        if(self.flag==0): nomeFicheiro = "serverRSA.private"
+        else: nomeFicheiro = "clientRSA.private"
 
         with open(nomeFicheiro, "wb") as privateKeyFile:
-            privateKeyFile.write(rsaPrivateKey)
+            privateKeyFile.write(privateBytes)
 
-    
+        if(self.flag==0): nomeFicheiro = "serverRSA.public"
+        else: nomeFicheiro = "clientRSA.public"
+
+        with open(nomeFicheiro, "wb") as publicKeyFile:
+            publicKeyFile.write(publicBytes)
+
 
     # Ler Chave Privada do Servidor ou Cliente.
     def loadPrivateKey(self, flag):
@@ -62,7 +70,7 @@ class RSAWorker(object):
         return signature
 
 # Verification.
-def verification(self, rsaPublicKey, signature, message):
+def verification(rsaPublicKey, signature, message):
     try:
         rsaPublicKey.verify(
         signature,
@@ -76,3 +84,15 @@ def verification(self, rsaPublicKey, signature, message):
         return True
     except InvalidSignature:
         return False
+
+def loadPublicKey(flag):
+    
+    if(flag==0): nomeFicheiro = "serverRSA.public"
+    else: nomeFicheiro = "clientRSA.public"
+
+    with open(nomeFicheiro, "rb") as privateKeyFile:
+    
+        publicRSAKey = load_pem_public_key(
+            privateKeyFile, backend=default_backend()
+        )
+    return publicRSAKey

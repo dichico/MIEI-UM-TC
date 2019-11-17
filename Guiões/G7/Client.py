@@ -26,7 +26,7 @@ clientPublicKey = clientPrivateKey.public_key()
 
 # Geração das chaves RSA do cliente
 clienteRSA = RSAWorker(1)
-clienteRSA.saveRSAPrivateKey()
+clienteRSA.saveRSAKeys()
 
 # IV
 iv = b'\x8f\x84\x82\xb0\xfc\x19\xe4!\xd6\xf3"\xce\x87o\xe4}'

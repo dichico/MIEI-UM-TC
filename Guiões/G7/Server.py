@@ -8,7 +8,7 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives.asymmetric import dh, rsa
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 from cryptography.hazmat.primitives.serialization import load_pem_public_key, PublicFormat, Encoding
-from RSAWorker import RSAWorker, verification
+from RSAWorker import RSAWorker, verification, loadPublicKey
 
 # Número primo e valor de gerador dado pelo guião
 P = 99494096650139337106186933977618513974146274831566768179581759037259788798151499814653951492724365471316253651463342255785311748602922458795201382445323499931625451272600173180136123245441204133515800495917242011863558721723303661523372572477211620144038809673692512025566673746993593384600667047373692203583
@@ -25,7 +25,7 @@ serverPublicKey = serverPrivateKey.public_key()
 
 # Geração das chaves RSA do servidor
 serverRSA = RSAWorker(0)
-serverRSA.saveRSAPrivateKey()
+serverRSA.saveRSAKeys()
 
 # IV
 iv = b'\x8f\x84\x82\xb0\xfc\x19\xe4!\xd6\xf3"\xce\x87o\xe4}'
@@ -76,12 +76,12 @@ def handle_echo(reader, writer):
     publicKeyBytes = yield from reader.read(max_msg_size)
     signature = yield from reader.read(max_msg_size)
 
-    rsaPublicKey = None # fazer esta parte das chaves públicas
+    rsaPublicKey = loadPublicKey(1)
     
-    """ if verification(rsaPublicKey,signature, publicKeyBytes):
+    if verification(rsaPublicKey,signature, publicKeyBytes):
         publicKeyServer = load_pem_public_key(publicKeyBytes, backend=default_backend())
         sharedKey = serverPrivateKey.exchange(publicKeyServer)
-    else: sys.exit("A mensagem não foi assinada pelo cliente correto") """
+    else: sys.exit("A mensagem não foi assinada pelo cliente correto")
 
     data = yield from reader.read(max_msg_size)
     while True:
