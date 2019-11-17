@@ -71,17 +71,26 @@ def handle_echo(reader, writer):
     addr = writer.get_extra_info('peername')
     srvwrk = ServerWorker(conn_cnt, addr)
     
-    
+
+    # Enviar a chave pública para o cliente que entrou.
+    publicKeyEnviar = serverPublicKey.public_bytes(Encoding.PEM, PublicFormat.SubjectPublicKeyInfo)
+    signature = serverRSA.signingMessage(publicKeyEnviar)
+    writer.write(publicKeyEnviar)
+    writer.write(signature)
+
     # Receber a chave pública do Cliente para a criação da Shared Key.
     publicKeyBytes = yield from reader.read(max_msg_size)
     signature = yield from reader.read(max_msg_size)
-
+    
+    # Ler a chave pública do cliente para verificar
     rsaPublicKey = loadPublicKey(1)
     
     if verification(rsaPublicKey,signature, publicKeyBytes):
         publicKeyServer = load_pem_public_key(publicKeyBytes, backend=default_backend())
         sharedKey = serverPrivateKey.exchange(publicKeyServer)
     else: sys.exit("A mensagem não foi assinada pelo cliente correto")
+
+
 
     data = yield from reader.read(max_msg_size)
     while True:
