@@ -54,7 +54,7 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
 
     - **Authenticated Encryption** - Uso da Cifra por Blocos ```AES``` no modo ```CGM```, garantindo-se assim a *confidencialidade* e *integridade* na comunicação entre Cliente e Servidor.
 
-      Ao
+      
 
     *(Aplicação de outras Cifras apenas para prática e entendimento do conceito desta comunicação entre Cliente e Servidor.)*
 
@@ -63,6 +63,11 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
 - **Guião 6** [Protocolo *Diffie-Hellman*](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G6)
   
   - **Symetric Encryption** - Uso da Cifra ```AES``` no modo ```CFB``` (evitando o *padding*), aplicando-se ainda o protocolo *Diffie-Hellman* para se efetuar a troca das chaves criptográficas (através de uma chave pública) entre o Cliente e Servidor.
+
+
+
+- **Guião 7** [Protocolo *Station-to-Station* Simplificado](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G7)
+  - Continuar o [*Guião 6*](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G6), adicionando-se a funcionalidade análoga à do protocolo *Station-to-Station* - Troca de assinaturas digitais (RSA).
 
 ---
 
