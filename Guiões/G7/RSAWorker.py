@@ -4,7 +4,7 @@ from cryptography.hazmat.primitives.serialization import load_pem_private_key, E
 from cryptography.hazmat.primitives import hashes
 from cryptography.exceptions import InvalidSignature
 
-class RSA(object):
+class RSAWorker(object):
 
     def __init__(self, flag):
 
@@ -18,7 +18,7 @@ class RSA(object):
 
 
     # Salvar a Chave Privada do Servidor ou Cliente fazendo já a Serialization.
-    def saveRSAPrivateKey(self, flag):
+    def saveRSAPrivateKey(self):
         
         rsaPrivateKey = self.rsaPrivateKey.private_bytes(
             encoding=Encoding.PEM,
@@ -26,11 +26,13 @@ class RSA(object):
             encryption_algorithm=NoEncryption()
         )
 
-        if(flag==0): nomeFicheiro = "serverPK"
+        if(self.flag==0): nomeFicheiro = "serverPK"
         else: nomeFicheiro = "clientPK"
 
         with open(nomeFicheiro, "wb") as privateKeyFile:
             privateKeyFile.write(rsaPrivateKey)
+
+    
 
     # Ler Chave Privada do Servidor ou Cliente.
     def loadPrivateKey(self, flag):
