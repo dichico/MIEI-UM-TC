@@ -4,6 +4,7 @@ import socket
 import os
 
 from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives import hashes, padding
 from cryptography.hazmat.primitives.asymmetric import dh
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
@@ -13,7 +14,7 @@ from cryptography.hazmat.primitives.serialization import load_pem_public_key, Pu
 from RSA import generatePrivateKey, savePrivateKeyClient, signingMessageClient, verification
 
 # Geração da chave privada do cliente
-clientPrivateKey = certificate.generatePrivateKey()
+clientPrivateKey = generatePrivateKey()
 
 # Geração da chave pública do cliente
 clientPublicKey = clientPrivateKey.public_key()
@@ -66,19 +67,21 @@ def tcp_echo_client(loop=None):
     addr = writer.get_extra_info('peername')
     client = Client(addr)
 
-    certificate.assinar - cria a chave, assinada e devolivda assinada
-    write.write(assinatura)
-    # Enviar a chave pública para o servidor.
-    publicKeyEnviar = clientPublicKey.public_bytes(Encoding.PEM, PublicFormat.SubjectPublicKeyInfo)
-    writer.write(publicKeyEnviar)
+    filePublicKey = savePrivateKeyClient(clientPrivateKey, 1)
+
+    with open("clientePK1", "rb") as chaveSerializadaFicheiro:
+    
+        chaveSerializada = serialization.load_pem_private_key(
+            chaveSerializadaFicheiro.read(),
+            password=None,
+            backend=default_backend()
+        )
+
 
     # Receber a chave pública do Servidor para a criação da Shared Key.
-    certificate.vertificar
-    publicKeyBytes = yield from reader.read(max_msg_size) -- é o que recebe do Servidor
-
+    publicKeyBytes = yield from reader.read(max_msg_size)
     publicKeyServer = load_pem_public_key(publicKeyBytes, backend=default_backend())
     sharedKey = clientPrivateKey.exchange(publicKeyServer)
-    #print(sharedKey)
     
     msg = client.process(sharedKey=sharedKey)
     while msg:
