@@ -16,8 +16,8 @@ def generatePrivateKey() :
 
     return privateKey
 
-# Salvar a Chave Privada do Servidor fazendo já o Serialization.
-def savePrivateKeyServer(privateKey):
+# Salvar a Chave Privada do Servidor ou Cliente fazendo já a Serialization.
+def savePrivateKey(privateKey, flag):
     
     privateKey = privateKey.private_bytes(
         encoding=serialization.Encoding.PEM,
@@ -25,27 +25,29 @@ def savePrivateKeyServer(privateKey):
         encryption_algorithm=serialization.NoEncryption()
     )
 
-    nomeFicheiro = "serverPK"
+    if(flag==0): nomeFicheiro = "serverPK"
+    else: nomeFicheiro = "clientPK"
+
     with open(nomeFicheiro, "wb") as privateKeyFile:
         privateKeyFile.write(privateKey)
     
     return privateKeyFile
 
-# Salvar a Chave Privada de cada Cliente, consoante o seu número, fazendo já o Serialization.
-# O servidor terá de enviar ao Cliente o seu número de Cliente.
-def savePrivateKeyClient(privateKey, numeroCliente):
+# Ler Chave Privada do Servidor ou Cliente.
+def loadPrivateKey(flag):
+
+    if(flag==0): nomeFicheiro = "serverPK"
+    else: nomeFicheiro = "clientPK"
+
+    with open(nomeFicheiro, "rb") as privateKeyFile:
+
+        privateKey = serialization.load_pem_private_key(
+            privateKeyFile.read(),
+            password=None,
+            backend=default_backend()
+        )
     
-    privateKeyEncriptada = privateKey.private_bytes(
-        encoding=serialization.Encoding.PEM,
-        format=serialization.PrivateFormat.TraditionalOpenSSL,
-        encryption_algorithm=serialization.NoEncryption()
-    )
-
-    nomeFicheiro = "clientePK" + str(numeroCliente)
-    with open(nomeFicheiro, "wb") as privateKeyFile:
-        privateKeyFile.write(privateKeyEncriptada)
-
-    return privateKeyFile
+    return privateKey
 
 # Signing - Assinar a mensagem.
 def signingMessageClient(privateKey, message):

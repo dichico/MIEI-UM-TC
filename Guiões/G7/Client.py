@@ -11,7 +11,7 @@ from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives.serialization import load_pem_public_key, PublicFormat, Encoding
 
-from RSA import generatePrivateKey, savePrivateKeyClient, signingMessageClient, verification
+from RSA import generatePrivateKey, savePrivateKey, loadPrivateKey
 
 # Geração da chave privada do cliente
 clientPrivateKey = generatePrivateKey()
@@ -67,15 +67,8 @@ def tcp_echo_client(loop=None):
     addr = writer.get_extra_info('peername')
     client = Client(addr)
 
-    filePublicKey = savePrivateKeyClient(clientPrivateKey, 1)
-
-    with open("clientePK1", "rb") as chaveSerializadaFicheiro:
-    
-        chaveSerializada = serialization.load_pem_private_key(
-            chaveSerializadaFicheiro.read(),
-            password=None,
-            backend=default_backend()
-        )
+    # Salvar a Chave Privada num ficheiro fazendo já a Serialization.
+    filePublicKey = savePrivateKey(clientPrivateKey, 1)
 
 
     # Receber a chave pública do Servidor para a criação da Shared Key.
