@@ -83,8 +83,9 @@ def handle_echo(reader, writer):
     signature = yield from reader.read(max_msg_size)
     
     # Ler a chave pública do cliente para verificar
-    rsaPublicKey = loadPublicKey(1)
-    
+    rsaPublicKey = loadPublicKey(1, numCliente=conn_cnt)
+
+    # Chamada da função para verificar se a mensagem recebida do cliente foi assinada pelo mesmo, usando chave pública
     if verification(rsaPublicKey,signature, publicKeyBytes):
         publicKeyServer = load_pem_public_key(publicKeyBytes, backend=default_backend())
         sharedKey = serverPrivateKey.exchange(publicKeyServer)
