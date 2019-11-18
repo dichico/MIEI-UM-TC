@@ -79,7 +79,7 @@ def handle_echo(reader, writer):
     writer.write(signature)
 
     # Receber a chave pública do Cliente para a criação da Shared Key.
-    publicKeyBytes = yield from reader.read(max_msg_size)
+    publicKeyBytes = yield from reader.read(625)
     signature = yield from reader.read(max_msg_size)
     
     # Ler a chave pública do cliente para verificar
@@ -89,8 +89,6 @@ def handle_echo(reader, writer):
         publicKeyServer = load_pem_public_key(publicKeyBytes, backend=default_backend())
         sharedKey = serverPrivateKey.exchange(publicKeyServer)
     else: sys.exit("A mensagem não foi assinada pelo cliente correto")
-
-
 
     data = yield from reader.read(max_msg_size)
     while True:

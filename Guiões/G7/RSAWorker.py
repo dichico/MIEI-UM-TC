@@ -45,8 +45,8 @@ class RSAWorker(object):
     # Ler Chave Privada do Servidor ou Cliente.
     def loadPrivateKey(self, flag):
 
-        if(flag==0): nomeFicheiro = "serverPK"
-        else: nomeFicheiro = "clientPK"
+        if(flag==0): nomeFicheiro = "serverRSA.private"
+        else: nomeFicheiro = "clientRSA.private"
 
         with open(nomeFicheiro, "rb") as privateKeyFile:
 
@@ -90,9 +90,11 @@ def loadPublicKey(flag):
     if(flag==0): nomeFicheiro = "serverRSA.public"
     else: nomeFicheiro = "clientRSA.public"
 
-    with open(nomeFicheiro, "rb") as privateKeyFile:
-    
+    with open(nomeFicheiro, "rb") as publicKeyFile:
+        
         publicRSAKey = load_pem_public_key(
-            privateKeyFile, backend=default_backend()
+            publicKeyFile.read(),
+            backend=default_backend()
         )
+
     return publicRSAKey

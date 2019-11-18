@@ -79,18 +79,18 @@ def tcp_echo_client(loop=None):
     
     # Enviar a chave pública para o servidor com um signature.
     publicKeyEnviar = clientPublicKey.public_bytes(Encoding.PEM, PublicFormat.SubjectPublicKeyInfo)
-    signature = clienteRSA.signingMessage(publicKeyEnviar)
+    signatureClient = clienteRSA.signingMessage(publicKeyEnviar)
     writer.write(publicKeyEnviar)
-    writer.write(signature)
+    writer.write(signatureClient)
 
     # Receber a chave pública do Servidor para a criação da Shared Key.
-    publicKeyBytes = yield from reader.read(max_msg_size)
-    signature = yield from reader.read(max_msg_size)
+    publicKeyBytes = yield from reader.read(625)
+    signatureServer = yield from reader.read(max_msg_size)
 
     # Ler a chave pública do servidor para verificar
     rsaPublicKey = loadPublicKey(0)
     
-    if verification(rsaPublicKey,signature, publicKeyBytes):
+    if verification(rsaPublicKey,signatureServer, publicKeyBytes):
         publicKeyServer = load_pem_public_key(publicKeyBytes, backend=default_backend())
         sharedKey = clientPrivateKey.exchange(publicKeyServer)
     else: sys.exit("A mensagem não foi assinada pelo servidor correto")
