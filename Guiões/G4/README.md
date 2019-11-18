@@ -8,7 +8,7 @@ Esta ideia é formalizada de modo a permitir que o atacante consiga interagir co
 
 ## Resolução do Guião
 
-Para este Guião, a ideia base era animar o modelo \```IND-CPA```, permitindo com isto obter uma ideia da importância deste tipo de ataque (e outros) no contexto da criptografia de *keys* públicas, onde a *key* é pública e o atacante pode encriptar qualquer *Chosen Plaintext* à escolha.
+Para este Guião, a ideia base era animar o modelo ```IND-CPA```, permitindo com isto obter uma ideia da importância deste tipo de ataque (e outros) no contexto da criptografia de *keys* públicas, onde a *key* é pública e o atacante pode encriptar qualquer *Chosen Plaintext* à escolha.
 
 
 
