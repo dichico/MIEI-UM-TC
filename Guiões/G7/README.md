@@ -1,6 +1,6 @@
 # Guião 7 -  Protocolo *Station-to-Station* Simplificado
 
-O protocolo *Station-to-Station* consiste numa espécie de "contrato" em termos de chave criptográfica. Baseia-se no protocolo *Diffie-Hellman*, adicionando segurança em termos de ataques intermediários, dado que pressupõe que ambas as extremidades possuem uma *key* de assinatura, que é usada para assinar a mensagem em si.
+O protocolo *Station-to-Station* consiste numa espécie de "contrato" em termos de chave criptográfica. Baseia-se no protocolo *Diffie-Hellman*, adicionando segurança em termos de ataques intermediários, dado que pressupõe que ambas as extremidades possuem uma *key* de assinatura, que é usada para "assinar" a mensagem em si.
 
 Através do uso do **algoritmo RSA**, espera-se assim integrar as assinaturas no protocolo do [Guião 6](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G6) anterior, permitindo que as mensagens enviadas pelo canal público sejam agora encriptadas e também assinadas.
 
@@ -23,9 +23,10 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> from RSAWorker import generateAndSaveKey
 >>> generateAndSaveKey(0)
 >>> generateAndSaveKey(1)
+>>> exit()
 ```
 
-Tendo-se todas as chaves necessárias,  a integração das assinaturas neste protocolo torna-se relativamente simples. Apenas é necessário criar uma assinatura em cada mensagem trocada, permitindo que antes da execução do programa em si, consiga ficar provado que cada uma dessas mensagens foi produzida pela entidade correta.
+Tendo-se todas as chaves necessárias,  a integração das assinaturas neste protocolo torna-se relativamente simples. Apenas é necessário criar uma assinatura, permitindo que antes da execução do programa em si, consiga ficar provado que a mensagem está a ser enviada pelo Cliente que a assinou.
 
 **Veja-se como esse processo é feito na parte do Servidor:**
 
