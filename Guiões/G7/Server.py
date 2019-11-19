@@ -88,8 +88,8 @@ def handle_echo(reader, writer):
     if verification(rsaPublicKey,signature, publicKeyBytes):
         publicKeyServer = load_pem_public_key(publicKeyBytes, backend=default_backend())
         sharedKey = serverPrivateKey.exchange(publicKeyServer)
-    else: sys.exit("A mensagem não foi assinada pelo Cliente correto.")
-
+    else: sys.exit("Ataque Intermediário!!!")
+    
     data = yield from reader.read(max_msg_size)
     while True:
         if not data: continue

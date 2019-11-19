@@ -92,9 +92,9 @@ def tcp_echo_client(loop=None):
     if verification(rsaPublicKey,signatureServer, publicKeyBytes):
         publicKeyServer = load_pem_public_key(publicKeyBytes, backend=default_backend())
         sharedKey = clientPrivateKey.exchange(publicKeyServer)
-    else: sys.exit("A mensagem não foi assinada pelo Servidor correto.")
+    else: sys.exit("Ataque Intermediário!!!")
     
-    
+    print("LOL")
     msg = client.process(sharedKey=sharedKey)
     while msg:
         writer.write(msg)
