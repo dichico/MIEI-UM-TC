@@ -4,6 +4,7 @@ from cryptography.hazmat.primitives.serialization import load_pem_private_key, l
 from cryptography.hazmat.primitives import hashes
 from cryptography.exceptions import InvalidSignature
 
+# Gerar as Chaves de ambos os extremos do canal, salvando-as.
 def generateAndSaveKey (flag):
 
     # 1. Gerar a Chave Privada e Pública.
@@ -14,7 +15,7 @@ def generateAndSaveKey (flag):
     )
     rsaPublicKey = rsaPrivateKey.public_key()
 
-    # 2. Salvar a Chave Privada e Pública.
+    # 2. Salvar a Chave Privada e Pública, consoante a flag.
 
     # Criação dos bytes serializados da Chave RSA Privada.
     privateBytes = rsaPrivateKey.private_bytes(
@@ -39,7 +40,7 @@ def generateAndSaveKey (flag):
     with open(nomeFicheiro, "wb") as publicKeyFile:
         publicKeyFile.write(publicBytes)
 
-# Assinar a mensagem com a chave privada RSA.
+# Assinar a mensagem com a Chave Privada RSA.
 def signingMessage(rsaPrivateKey, message):
 
     signature = rsaPrivateKey.sign(
@@ -52,7 +53,7 @@ def signingMessage(rsaPrivateKey, message):
     )
     return signature
 
-# Função standalone para verificar uma assinatura fornecendo também a chave pública RSA.
+# Função standalone para verificar uma assinatura fornecendo também a Chave pública RSA.
 def verification(rsaPublicKey, signature, message):
     try:
         rsaPublicKey.verify(
