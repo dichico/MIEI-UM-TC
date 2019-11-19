@@ -86,7 +86,7 @@ def tcp_echo_client(loop=None):
     publicKeyBytes = yield from reader.read(625)
     signatureServer = yield from reader.read(max_msg_size)
 
-    # Ler a Chave Pública do Servidor para verificar.
+    # Ler a Chave Pública RSA do Servidor para verificar.
     rsaPublicKey = loadPublicKey(0)
     
     if verification(rsaPublicKey,signatureServer, publicKeyBytes):
