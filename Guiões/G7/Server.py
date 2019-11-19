@@ -81,14 +81,14 @@ def handle_echo(reader, writer):
     publicKeyBytes = yield from reader.read(625)
     signature = yield from reader.read(max_msg_size)
     
-    # Ler a Chave Pública do Cliente para verificar.
+    # Ler a Chave Pública RSA do Cliente para verificar.
     rsaPublicKey = loadPublicKey(1)
 
     # Chamada da função para verificar se a mensagem recebida do Cliente foi assinada pelo mesmo, usando Chave Pública.
     if verification(rsaPublicKey,signature, publicKeyBytes):
         publicKeyServer = load_pem_public_key(publicKeyBytes, backend=default_backend())
         sharedKey = serverPrivateKey.exchange(publicKeyServer)
-    else: sys.exit("A mensagem não foi assinada pelo Cliente correto")
+    else: sys.exit("A mensagem não foi assinada pelo Cliente correto.")
 
     data = yield from reader.read(max_msg_size)
     while True:
