@@ -4,73 +4,53 @@ from cryptography.hazmat.primitives.serialization import load_pem_private_key, l
 from cryptography.hazmat.primitives import hashes
 from cryptography.exceptions import InvalidSignature
 
-class RSAWorker(object):
+def generateAndSaveKey (flag):
 
-    # Inicialização das variáveis, ou seja, as chaves privadas e públicas
-    def __init__(self, flag):
+    # 1. Gerar a Chave Privada e Pública.
+    rsaPrivateKey = rsa.generate_private_key(
+        public_exponent=65537,    
+        key_size=2048,    
+        backend=default_backend()
+    )
+    rsaPublicKey = rsaPrivateKey.public_key()
 
-        self.rsaPrivateKey = rsa.generate_private_key(
-            public_exponent=65537,    
-            key_size=2048,    
-            backend=default_backend()
-        )
-        self.rsaPublicKey = self.rsaPrivateKey.public_key()
-        self.flag = flag
+    # 2. Salvar a Chave Privada e Pública.
 
+    # Criação dos bytes serializados da Chave RSA Privada.
+    privateBytes = rsaPrivateKey.private_bytes(
+        encoding=Encoding.PEM,
+        format=PrivateFormat.TraditionalOpenSSL,
+        encryption_algorithm=NoEncryption()
+    )
 
-    # Salvar a Chave Privada do Servidor ou Cliente fazendo já a Serialization.
-    def saveRSAKeys(self):
-        
-        # Criação dos bytes serializados da chave RSA privada.
-        privateBytes = self.rsaPrivateKey.private_bytes(
-            encoding=Encoding.PEM,
-            format=PrivateFormat.TraditionalOpenSSL,
-            encryption_algorithm=NoEncryption()
-        )
+    # Criação dos bytes serializados da Chave RSA Pública.
+    publicBytes = rsaPublicKey.public_bytes(encoding=Encoding.PEM,
+        format=PublicFormat.SubjectPublicKeyInfo)
 
-        # Criação dos bytes serializados da chave RSA pública.
-        publicBytes = self.rsaPublicKey.public_bytes(encoding=Encoding.PEM,
-            format=PublicFormat.SubjectPublicKeyInfo)
+    # Guardar no ficheiro a Chave Privada.
+    if(flag==0): nomeFicheiro = "serverRSA.private"
+    else: nomeFicheiro = "clientRSA.private"
+    with open(nomeFicheiro, "wb") as privateKeyFile:
+        privateKeyFile.write(privateBytes)
 
-        # Guardar no ficheiro a chave pública.
-        if(self.flag==0): nomeFicheiro = "serverRSA.private"
-        else: nomeFicheiro = "clientRSA.private"
-        with open(nomeFicheiro, "wb") as privateKeyFile:
-            privateKeyFile.write(privateBytes)
+    # Guardar no ficheiro a Chave Pública.
+    if(flag==0): nomeFicheiro = "serverRSA.public"
+    else: nomeFicheiro = "clientRSA.public"
+    with open(nomeFicheiro, "wb") as publicKeyFile:
+        publicKeyFile.write(publicBytes)
 
-        # Guardar no ficheiro a chave pública.
-        if(self.flag==0): nomeFicheiro = "serverRSA.public"
-        else: nomeFicheiro = "clientRSA.public"
-        with open(nomeFicheiro, "wb") as publicKeyFile:
-            publicKeyFile.write(publicBytes)
+# Assinar a mensagem com a chave privada RSA.
+def signingMessage(rsaPrivateKey, message):
 
-
-    # Ler Chave Privada do Servidor ou Cliente (é necessário?)
-    def loadPrivateKey(self, flag):
-
-        if(flag==0): nomeFicheiro = "serverRSA.private"
-        else: nomeFicheiro = "clientRSA.private"
-
-        with open(nomeFicheiro, "rb") as privateKeyFile:
-
-            self.privateKey = load_pem_private_key(
-                privateKeyFile.read(),
-                password=None,
-                backend=default_backend()
-            )
-
-    # Assinar a mensagem com a chave privada RSA.
-    def signingMessage(self, message):
-
-        signature = self.rsaPrivateKey.sign(
-            message,
-            padding.PSS(
-                mgf=padding.MGF1(hashes.SHA256()),
-                salt_length=padding.PSS.MAX_LENGTH
-            ),
-            hashes.SHA256()
-        )
-        return signature
+    signature = rsaPrivateKey.sign(
+        message,
+        padding.PSS(
+            mgf=padding.MGF1(hashes.SHA256()),
+            salt_length=padding.PSS.MAX_LENGTH
+        ),
+        hashes.SHA256()
+    )
+    return signature
 
 # Função standalone para verificar uma assinatura fornecendo também a chave pública RSA.
 def verification(rsaPublicKey, signature, message):
@@ -88,11 +68,26 @@ def verification(rsaPublicKey, signature, message):
     except InvalidSignature:
         return False
 
-# Função standalone para efetuar o loading da chave pública RSA.
-def loadPublicKey(flag, numCliente=0):
+# Função standalone para efetuar o loading da Chave Privada RSA.
+def loadPrivateKey(flag):
+
+    if(flag==0): nomeFicheiro = "serverRSA.private"
+    else: nomeFicheiro = "clientRSA.private"
+
+    with open(nomeFicheiro, "rb") as privateKeyFile:
+
+        privateKey = load_pem_private_key(
+            privateKeyFile.read(),
+            password=None,
+            backend=default_backend()
+        )
+    return privateKey
+
+# Função standalone para efetuar o loading da Chave Pública RSA.
+def loadPublicKey(flag):
     
     if(flag==0): nomeFicheiro = "serverRSA.public"
-    else: nomeFicheiro = "clientRSA" + numCliente + ".public"
+    else: nomeFicheiro = "clientRSA.public"
 
     with open(nomeFicheiro, "rb") as publicKeyFile:
         
