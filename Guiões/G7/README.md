@@ -45,7 +45,7 @@ if verification(rsaPublicKey,signature, publicKeyBytes):
             backend=default_backend()
         )
 	sharedKey = serverPrivateKey.exchange(publicKeyServer)
-else: sys.exit("A mensagem não foi assinada pelo Cliente correto.")
+else: sys.exit("Ataque Intermediário!!!")
 ```
 
 ---
