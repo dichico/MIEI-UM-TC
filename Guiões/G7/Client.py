@@ -9,24 +9,20 @@ from cryptography.hazmat.primitives.asymmetric import dh
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives.serialization import load_pem_public_key, PublicFormat, Encoding
-from RSAWorker import RSAWorker, verification, loadPublicKey
+from RSAWorker import signingMessage, verification, loadPrivateKey, loadPublicKey
 
-# Número primo e valor de gerador dado pelo guião
+# Número primo e valor de gerador dado pelo Guião.
 P = 99494096650139337106186933977618513974146274831566768179581759037259788798151499814653951492724365471316253651463342255785311748602922458795201382445323499931625451272600173180136123245441204133515800495917242011863558721723303661523372572477211620144038809673692512025566673746993593384600667047373692203583
 G = 44157404837960328768872680677686802650999163226766694797650810379076416463147265401084491113667624054557335394761604876882446924929840681990106974314935015501571333024773172440352475358750668213444607353872754650805031912866692119819377041901642732455911509867728218394542745330014071040326856846990119719675
 
-# A criação do DH com os números fornecidos no guião
+# A criação do DH com os números fornecidos no Guião.
 parameters = dh.DHParameterNumbers(P, G, None).parameters(backend=default_backend())
 
-# Geração da chave privada do cliente
+# Chave Privada do Cliente.
 clientPrivateKey = parameters.generate_private_key()
 
-# Geração da chave pública do cliente
+# Chave Pública do Cliente.
 clientPublicKey = clientPrivateKey.public_key()
-
-# Geração das chaves RSA do cliente
-clienteRSA = RSAWorker(1)
-clienteRSA.saveRSAKeys()
 
 # IV
 iv = b'\x8f\x84\x82\xb0\xfc\x19\xe4!\xd6\xf3"\xce\x87o\xe4}'
@@ -42,13 +38,14 @@ class Client:
         self.msg_cnt = 0
 
     def process(self, msg=b"", sharedKey=b""):
-        # Número da mensagem
+
+        # Número da mensagem.
         self.msg_cnt +=1
 
         print('Input your message.')
         textInput = input().encode()
 
-        # Derivação da shared key para 32 bytes ou seja 256 bits (mais seguro)
+        # Derivação da Shared Key para 32 bytes ou seja 256 bits (mais seguro).
         derivedKey = HKDF(
         algorithm=hashes.SHA256(),
         length=32,
@@ -57,7 +54,7 @@ class Client:
         backend=default_backend()
         ).derive(sharedKey)
 
-        # Encriptar a mensagem para mandar ao servidor.
+        # Encriptar a mensagem para mandar ao Servidor.
         cipher = Cipher(algorithms.AES(derivedKey), modes.CFB(iv), backend=default_backend())
         encryptor = cipher.encryptor()
         
@@ -76,26 +73,28 @@ def tcp_echo_client(loop=None):
     addr = writer.get_extra_info('peername')
     client = Client(addr)
 
-    
-    # Enviar a chave pública para o servidor com um signature.
+    # Enviar a Chave Pública para o Servidor com um signature.
     publicKeyEnviar = clientPublicKey.public_bytes(Encoding.PEM, PublicFormat.SubjectPublicKeyInfo)
-    signatureClient = clienteRSA.signingMessage(publicKeyEnviar)
+    
+    rsaPrivateKey = loadPrivateKey(1)
+
+    signatureClient = signingMessage(rsaPrivateKey, publicKeyEnviar)
     writer.write(publicKeyEnviar)
     writer.write(signatureClient)
 
-    # Receber a chave pública do Servidor para a criação da Shared Key.
+    # Receber a Chave Pública do Servidor para a criação da Shared Key.
     publicKeyBytes = yield from reader.read(625)
     signatureServer = yield from reader.read(max_msg_size)
 
-    # Ler a chave pública do servidor para verificar
+    # Ler a Chave Pública RSA do Servidor para verificar.
     rsaPublicKey = loadPublicKey(0)
     
     if verification(rsaPublicKey,signatureServer, publicKeyBytes):
         publicKeyServer = load_pem_public_key(publicKeyBytes, backend=default_backend())
         sharedKey = clientPrivateKey.exchange(publicKeyServer)
-    else: sys.exit("A mensagem não foi assinada pelo servidor correto")
+    else: sys.exit("Ataque Intermediário!!!")
     
-    
+    print("LOL")
     msg = client.process(sharedKey=sharedKey)
     while msg:
         writer.write(msg)
