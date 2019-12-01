@@ -9,7 +9,9 @@ from cryptography.hazmat.primitives.asymmetric import dh
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives.serialization import load_pem_public_key, PublicFormat, Encoding
-from RSAWorker import signingMessage, verification, loadPrivateKey, loadPublicKey
+#from RSAWorker import signingMessage, verification, loadPrivateKey, loadPublicKey
+from OpenSSLWorker import verifySignature, signingMessage, cPrivateKey, certVerify
+
 
 # Número primo e valor de gerador dado pelo Guião.
 P = 99494096650139337106186933977618513974146274831566768179581759037259788798151499814653951492724365471316253651463342255785311748602922458795201382445323499931625451272600173180136123245441204133515800495917242011863558721723303661523372572477211620144038809673692512025566673746993593384600667047373692203583
@@ -76,25 +78,28 @@ def tcp_echo_client(loop=None):
     # Enviar a Chave Pública para o Servidor com um signature.
     publicKeyEnviar = clientPublicKey.public_bytes(Encoding.PEM, PublicFormat.SubjectPublicKeyInfo)
     
-    rsaPrivateKey = loadPrivateKey(1)
+    rsaPrivateKey = cPrivateKey()
 
-    signatureClient = signingMessage(rsaPrivateKey, publicKeyEnviar)
+    signature = signingMessage(rsaPrivateKey, publicKeyEnviar)
     writer.write(publicKeyEnviar)
-    writer.write(signatureClient)
+    writer.write(signature)
 
     # Receber a Chave Pública do Servidor para a criação da Shared Key.
     publicKeyBytes = yield from reader.read(625)
-    signatureServer = yield from reader.read(max_msg_size)
+    signature = yield from reader.read(max_msg_size)
 
-    # Ler a Chave Pública RSA do Servidor para verificar.
-    rsaPublicKey = loadPublicKey(0)
-    
-    if verification(rsaPublicKey,signatureServer, publicKeyBytes):
-        publicKeyServer = load_pem_public_key(publicKeyBytes, backend=default_backend())
-        sharedKey = clientPrivateKey.exchange(publicKeyServer)
-    else: sys.exit("Ataque Intermediário!!!")
-    
-    print("LOL")
+    # Verificação do chain of trust do certificado do cliente antes da verificação da assinatura.
+    if certVerify(0):
+        print("O certificado tem a sua chain of trust correta")
+        # Chamada da função para verificar se a mensagem recebida do Cliente foi assinada pelo mesmo, usando Chave Pública do Certificado.
+        if verifySignature(0, signature, publicKeyBytes):
+            print("A assinatura do servidor foi corretamente verificada com o seu certificado")
+            publicKeyServer = load_pem_public_key(publicKeyBytes, backend=default_backend())
+            sharedKey = clientPrivateKey.exchange(publicKeyServer)
+        else: sys.exit("Ataque Intermediário - O servidor/certificado não assinou esta mensagem.")
+
+    else: sys.exit("O certificado do servidor não conseguiu ser verificado no seu chain of trust (CA)")
+
     msg = client.process(sharedKey=sharedKey)
     while msg:
         writer.write(msg)
