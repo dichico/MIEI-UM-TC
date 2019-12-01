@@ -19,7 +19,7 @@ Antes de começar a programar a melhor maneira para implementar o enunciado, uti
 > openssl x509 -inform DER -outform PEM -in CA.cer -out CertCA.cer
 ```
 
-- ### Transformação dos ficheiros para objetos *PyOpenSSL*:
+- ### Transformação dos ficheiros para objetos *PyOpenSSL*
 
 No ficheiro [**OpenSSLWorker.py**](https://github.com/uminho-miei-crypto/1920-G9/blob/master/Gui%C3%B5es/G9/OpenSSLWorker.py) temos a inicialização da leitura dos ficheiros fornecidos, ou seja a CA.pem (agora em formato `PEM`) e os certificados `Cliente1.p12` e `Servidor.p12` utilizando da biblioteca [PyOpenSSL](https://www.pyopenssl.org/en/stable/) os métodos `crypto.load_certificate()` e `load_pkcs12()`.
 
@@ -44,7 +44,7 @@ store = crypto.X509Store()
 store.add_cert(ca)
 ```
 
-- ###  Verificação do *chain of trust*:
+- ###  Verificação do *chain of trust*
 
 Para este método foi utilizado uma *flag*, que caso fosse 0 (Servidor) ou 1 (Cliente) verificasse através do método `verify_certificate()` se o certificado da parte envolvida foi realmente assinado pelo *issuer* mencionado, ou seja o nosso `CertCA.pem`.
 
@@ -70,7 +70,7 @@ def certVerify(flag):
 
 Através das chaves privadas fornecidas nas *keystores* PKCS12 pudemos utilizar o método `crypto.sign()` para assinar a mensagem do Servidor ou Cliente e também o método `crypto.verify()` para verificar se um determinado certificado assinou a mensagem pedida.
 
-- ### Exemplo destes métodos no ficheiro `Servidor.py`:
+- ### Exemplo destes métodos no ficheiro `Servidor.py`
 
 ```python
 # Verificação do chain of trust do certificado do cliente antes da verificação da assinatura.
