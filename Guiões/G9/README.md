@@ -65,6 +65,22 @@ def certVerify(flag):
 ### Assinar e verificar com os certificados
 Através das chaves privadas fornecidas nas *keystores* PKCS12 pudemos utilizar o método `crypto.sign()` para assinar a mensagem do Servidor ou Cliente e também o método `crypto.verify()` para verificar se um determinado certificado assinou a mensagem pedida.
 
+### Exemplo destes métodos no ficheiro `Servidor.py`:
 
-
+```python
+# Verificação do chain of trust do certificado do cliente antes da verificação da assinatura.
+    if certVerify(1):
+        print("O certificado tem a sua chain of trust correta")
+        
+        # Chamada da função para verificar se a mensagem recebida do Cliente foi assinada pelo mesmo, usando Chave Pública do Certificado.
+        if verifySignature(1, signature, publicKeyBytes):
+            print("A assinatura do cliente foi corretamente verificada com o seu certificado")
+            
+            publicKeyServer = load_pem_public_key(publicKeyBytes, backend=default_backend())
+            sharedKey = serverPrivateKey.exchange(publicKeyServer)
+        
+        else: sys.exit("Ataque Intermediário - O cliente/certificado não assinou esta mensagem.")
+    
+    else: sys.exit("O certificado do cliente não conseguiu ser verificado no seu chain of trust (CA)")
+```
 ---
