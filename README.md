@@ -62,25 +62,25 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
 
 - **Guião 6** [Protocolo *Diffie-Hellman*](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G6)
   
-  - **Symetric Encryption** - Uso da Cifra ```AES``` no modo ```CFB``` (evitando o *padding*), aplicando-se ainda o protocolo *Diffie-Hellman* para se efetuar a troca das chaves criptográficas (através de uma chave pública) entre o Cliente e Servidor.
+    - **Symetric Encryption** - Uso da Cifra ```AES``` no modo ```CFB``` (evitando o *padding*), aplicando-se ainda o protocolo *Diffie-Hellman* para se efetuar a troca das chaves criptográficas (através de uma chave pública) entre o Cliente e Servidor.
 
     
   
 - **Guião 7** [Protocolo *Station-to-Station* Simplificado](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G7)
   
-- Continuar o [*Guião 6*](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G6), adicionando-se a funcionalidade análoga à do protocolo *Station-to-Station* - Troca de assinaturas digitais (RSA).
+    - Continuar o [*Guião 6*](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G6), adicionando-se a funcionalidade análoga à do protocolo *Station-to-Station* - Troca de assinaturas digitais (RSA).
   
     
   
 - **Guião 8** [Manipulação de Certificados X509](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Guiões/G8)
   
-- Estudo da validação de Certificados em *Python* para que possam depois ser integrados na aplicação Cliente e Servidor ([Guião 9](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Guiões/G9)).
+    - Estudo da validação de Certificados em *Python* para que possam depois ser integrados na aplicação Cliente e Servidor ([Guião 9](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Guiões/G9)).
   
-- **Uso de três sub-comandos do openSSL para o estudo de como deve ser feita a extração de informação destes Certificados:**
+    - **Uso de três sub-comandos do openSSL para o estudo de como deve ser feita a extração de informação destes Certificados:**
   
-  - x509;
-  - pkcs12;
-  - verify.
+      - x509;
+      - pkcs12;
+      - verify.
   
   
   
