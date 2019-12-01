@@ -16,13 +16,9 @@ Com estes ficheiros, usaram-se os três sub-comandos mencionados, na tentativa d
 
 Invocando o openSSL em si conseguimos depois trabalhar com os seus sub-comandos. Para isso apenas é necessário escrever ```openssl```no terminal, ficando ele pronto para interpretar todos os sub-comandos que do openSSL fazem parte.
 
+- ### **Comando x509**
 
-
-1. **Comando x509**
-
-
-
-- **Revelação da informação como *ouput* no terminal**
+1. **Revelação da informação do Certificado como *ouput* no terminal**
 
 ```python
 OpenSSL> x509 -in CA.cer -inform DER
@@ -34,23 +30,19 @@ Ao adicionarmos ```-email``` no fim, conseguimos ainda obter a informação acer
 OpenSSL> x509 -in CA.cer -inform DER -email
 ```
 
-- **Extração da informacão em modo PEM** - Criação de um novo Ficheiro
+2. **Extração da informacão em modo PEM** - Criação de um novo Ficheiro
 
 Outra coisa que pode ser feita é a transformação da CA para o modo PEM, o que torna o ficheiro de *output* gerado perfeitamente legível, facilitando a extração/leitura do Certificado nele contido.
+
+***Esta conversão é importante, dado que estamos a trabalhar com openSSL e ele usa PEM por omissão.***
 
 ```python
 OpenSSL> x509 -inform DER -outform PEM -in CA.cer -out CAPEM.cer
 ```
 
-**Esta conversão é importante, dado que estamos a trabalhar com openSSL e ele usa PEM por omissão.**
+- ### **Comando pkcs12**
 
-
-
-2. **Comando pkcs12**
-
-
-
-- **Revelação da informação como *ouput* no terminal**
+1. **Revelação da informação do Certificado como *ouput* no terminal**
 
 Este primeiro comando possibilita a visualização em modo terminal de toda a informação contida nos ficheiros em formato **.p12**. Assim, visualiza-se o Certificado, bem como informações extra acerca do email, tipo de encriptação e ainda outros atributos como o *localKeyID*.
 
@@ -60,7 +52,7 @@ Além do Certificado, se formos mais além na introdução da *passphrase*, cons
 OpenSSL> pkcs12 -in Servidor.p12 -info
 ```
 
-- **Extração da informacão em modo PEM** - Criação de um novo Ficheiro
+2. **Extração da informacão em modo PEM** - Criação de um novo Ficheiro
 
 Tal como acontece na parte da CA, pode na mesma ser extraída toda a informação que é mostrada pelo *output* do terminal, ou seja, os Certificados do Cliente e Servidor, bem como as suas Chaves Privada.
 
@@ -74,5 +66,3 @@ OpenSSL> openssl pkcs12 -in Servidor.p12 -clcerts -out servidorInfo.txt
 ---
 
 ## Observações Finais
-
-
