@@ -1,6 +1,6 @@
 # Guião 8 -  Manipulação de Certificados X509
 
-Este Guião serve de preparação para o [Guião 9](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Guiões/G9), tendo em conta que a ideia passa por estudar a forma de manipular certificados em *Pyhton*, chegando-se à fase final de validação. 
+Este Guião serve de preparação para o [Guião 9](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Guiões/G9), tendo em conta que a ideia passa por estudar a forma de manipular certificados em *Python*, chegando-se à fase final de validação. 
 
 **Para isso, são fornecidos três ficheiros:**
 
@@ -18,7 +18,7 @@ Invocando o openSSL conseguimos depois trabalhar com os seus sub-comandos. Para 
 
 - ### **Comando x509**
 
-1. **Revelação da informação do Certificado como *ouput* no terminal**
+1. **Revelação da informação do Certificado como *output* no terminal**
 
 ```python
 OpenSSL> x509 -in CA.cer -inform DER
@@ -34,7 +34,7 @@ OpenSSL> x509 -in CA.cer -inform DER -email
 
 Outra coisa que pode ser feita é a transformação da CA para o modo PEM, o que torna o ficheiro de *output* gerado perfeitamente legível, facilitando a extração/leitura do Certificado nele contido.
 
-***Esta conversão é importante, dado que estamos a trabalhar com openSSL e ele usa PEM por omissão.***
+***Esta conversão é importante, dado que estamos a trabalhar com PyOpenSSL e ele usa PEM por omissão.***
 
 ```python
 OpenSSL> x509 -inform DER -outform PEM -in CA.cer -out sslCACert.pem
@@ -42,7 +42,7 @@ OpenSSL> x509 -inform DER -outform PEM -in CA.cer -out sslCACert.pem
 
 - ### **Comando pkcs12**
 
-1. **Revelação da informação do Certificado como *ouput* no terminal**
+1. **Revelação da informação do Certificado como *output* no terminal**
 
 Este primeiro comando possibilita a visualização em modo terminal de toda a informação contida nos ficheiros em formato **.p12**. Neste caso, visualiza-se o Certificado, bem como informações extra acerca do email, tipo de encriptação e ainda outros atributos como o *localKeyID*.
 
@@ -52,7 +52,7 @@ Se formos mais além na introdução da *passphrase*, conseguimos também visual
 OpenSSL> pkcs12 -in Servidor.p12 -info
 ```
 
-2. **Extração da informacão em modo PEM** - Criação de um novo Ficheiro
+2. **Extração da informação em modo PEM** - Criação de um novo Ficheiro
 
 Tal como acontece na parte da CA, pode na mesma ser extraída toda a informação que é mostrada pelo *output* do terminal, ou seja, os Certificados do Cliente e Servidor, bem como as suas Chaves Privada.
 
