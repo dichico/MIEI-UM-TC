@@ -1,7 +1,7 @@
 from OpenSSL import crypto
 
 # Abertura dos vários ficheiros e transformação para instâncias do PyOpenSSL
-with open('Certificados/CACert.pem', 'r') as ca_file:
+with open('Certificados/CertCA.pem', 'r') as ca_file:
     ca_pem = ca_file.read()
 ca = crypto.load_certificate(crypto.FILETYPE_PEM, ca_pem)
 
