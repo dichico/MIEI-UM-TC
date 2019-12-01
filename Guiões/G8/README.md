@@ -4,25 +4,25 @@ Este Guião serve de preparação para o Guião 9, dado que a ideia passa por es
 
 **Para isso, são fornecidos três ficheiros:**
 
-1. Uma *keystore* PKCS12 que contém o Certificado (juntamente com a chave privada) para o Servidor;
-2. Uma *keystore* PKCS12 que contém o Certificado (juntamente com a chave privada) para o Cliente;
+1. Uma *keystore* PKCS12 que contém o Certificado (juntamente com a Chave Privada) para o Servidor;
+2. Uma *keystore* PKCS12 que contém o Certificado (juntamente com a Chave Privada) para o Cliente;
 3. O Certificado (formato DER) da CA utilizada neste Guião.
 
-Com estes ficheiros, foi-se recorrendo aos três sub-comandos mencionados, na tentativa de entender como poderia ser feito o processo de manipulação de cada um dos Certificados e de que modo a informação poderia ser extraída consoante a necessidade futura na nossa aplicação Cliente e Servidor.
+Com estes ficheiros, usaram-se os três sub-comandos mencionados, na tentativa de entender como poderia ser feito o processo de manipulação de cada um dos Certificados e de que modo a informação poderia ser extraída consoante a necessidade futura na nossa aplicação Cliente e Servidor.
 
 ---
 
 ## Resolução do Guião
 
-Invocando o openSSL em si conseguimos depois trabalhar com os seus sub-comandos. 
+Invocando o openSSL em si conseguimos depois trabalhar com os seus sub-comandos. Para isso apenas é necessário escrever ```openssl```no terminal, ficando ele pronto para interpretar todos os sub-comandos que do openSSL fazem parte.
 
-```python
-> openssl
-```
+
 
 1. **Comando x509**
 
-Através do comando abaixo conseguimos obter o *output* no terminal daquilo que é o Certificado da CA em si. 
+
+
+- **Revelação da informação como *ouput* no terminal**
 
 ```python
 OpenSSL> x509 -in CA.cer -inform DER
@@ -33,6 +33,8 @@ Ao adicionarmos ```-email``` no fim, conseguimos ainda obter a informação acer
 ```python
 OpenSSL> x509 -in CA.cer -inform DER -email
 ```
+
+- **Extração da informacão em modo PEM** - Criação de um novo Ficheiro
 
 Outra coisa que pode ser feita é a transformação da CA para o modo PEM, o que torna o ficheiro de *output* gerado perfeitamente legível, facilitando a extração/leitura do Certificado nele contido.
 
@@ -46,6 +48,10 @@ OpenSSL> x509 -inform DER -outform PEM -in CA.cer -out CAPEM.cer
 
 2. **Comando pkcs12**
 
+
+
+- **Revelação da informação como *ouput* no terminal**
+
 Este primeiro comando possibilita a visualização em modo terminal de toda a informação contida nos ficheiros em formato **.p12**. Assim, visualiza-se o Certificado, bem como informações extra acerca do email, tipo de encriptação e ainda outros atributos como o *localKeyID*.
 
 Além do Certificado, se formos mais além na introdução da *passphrase*, conseguimos também visualizar a Chave Privada Encriptada da entidade em causa.
@@ -53,6 +59,8 @@ Além do Certificado, se formos mais além na introdução da *passphrase*, cons
 ```python
 OpenSSL> pkcs12 -in Servidor.p12 -info
 ```
+
+- **Extração da informacão em modo PEM** - Criação de um novo Ficheiro
 
 Tal como acontece na parte da CA, pode na mesma ser extraída toda a informação que é mostrada pelo *output* do terminal, ou seja, os Certificados do Cliente e Servidor, bem como as suas Chaves Privada.
 
