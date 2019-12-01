@@ -9,7 +9,6 @@ from cryptography.hazmat.primitives.asymmetric import dh
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives.serialization import load_pem_public_key, PublicFormat, Encoding
-#from RSAWorker import signingMessage, verification, loadPrivateKey, loadPublicKey
 from OpenSSLWorker import verifySignature, signingMessage, cPrivateKey, certVerify
 
 
@@ -78,8 +77,10 @@ def tcp_echo_client(loop=None):
     # Enviar a Chave Pública para o Servidor com um signature.
     publicKeyEnviar = clientPublicKey.public_bytes(Encoding.PEM, PublicFormat.SubjectPublicKeyInfo)
     
+    # A chave privada RSA buscada à keystore PKCS12 do cliente.
     rsaPrivateKey = cPrivateKey()
 
+    # Assinatura da chave pública a enviar com a chave RSA privada.
     signature = signingMessage(rsaPrivateKey, publicKeyEnviar)
     writer.write(publicKeyEnviar)
     writer.write(signature)
@@ -91,11 +92,14 @@ def tcp_echo_client(loop=None):
     # Verificação do chain of trust do certificado do cliente antes da verificação da assinatura.
     if certVerify(0):
         print("O certificado tem a sua chain of trust correta")
+        
         # Chamada da função para verificar se a mensagem recebida do Cliente foi assinada pelo mesmo, usando Chave Pública do Certificado.
         if verifySignature(0, signature, publicKeyBytes):
             print("A assinatura do servidor foi corretamente verificada com o seu certificado")
+            
             publicKeyServer = load_pem_public_key(publicKeyBytes, backend=default_backend())
             sharedKey = clientPrivateKey.exchange(publicKeyServer)
+        
         else: sys.exit("Ataque Intermediário - O servidor/certificado não assinou esta mensagem.")
 
     else: sys.exit("O certificado do servidor não conseguiu ser verificado no seu chain of trust (CA)")
