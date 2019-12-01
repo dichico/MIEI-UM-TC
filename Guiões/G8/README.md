@@ -1,6 +1,6 @@
 # Guião 8 -  Manipulação de Certificados X509
 
-Este Guião serve de preparação para o Guião 9, dado que a ideia passa por estudar toda a forma de manipular certificados em *Pyhton*, chegando à fase final de validação. 
+Este Guião serve de preparação para o [Guião 9](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Guiões/G9), tendo em conta que a ideia passa por estudar a forma de manipular certificados em *Pyhton*, chegando-se à fase final de validação. 
 
 **Para isso, são fornecidos três ficheiros:**
 
@@ -8,13 +8,13 @@ Este Guião serve de preparação para o Guião 9, dado que a ideia passa por es
 2. Uma *keystore* PKCS12 que contém o Certificado (juntamente com a Chave Privada) para o Cliente;
 3. O Certificado (formato DER) da CA utilizada neste Guião.
 
-Com estes ficheiros, usaram-se os três sub-comandos mencionados, na tentativa de entender como poderia ser feito o processo de manipulação de cada um dos Certificados e de que modo a informação poderia ser extraída consoante a necessidade futura na nossa aplicação Cliente e Servidor.
+Com estes ficheiros, usaram-se os três sub-comandos mencionados, na tentativa de entender como poderia ser feito o processo de manipulação de cada um dos Certificados e de que modo a informação poderia ser extraída e convertida num ficheiro legível para futura validação.
 
 ---
 
 ## Resolução do Guião
 
-Invocando o openSSL em si conseguimos depois trabalhar com os seus sub-comandos. Para isso apenas é necessário escrever ```openssl```no terminal, ficando ele pronto para interpretar todos os sub-comandos que do openSSL fazem parte.
+Invocando o openSSL conseguimos depois trabalhar com os seus sub-comandos. Para isso apenas é necessário escrever ```openssl```no terminal, ficando ele pronto para interpretar todos os sub-comandos que do openSSL fazem parte.
 
 - ### **Comando x509**
 
@@ -37,16 +37,16 @@ Outra coisa que pode ser feita é a transformação da CA para o modo PEM, o que
 ***Esta conversão é importante, dado que estamos a trabalhar com openSSL e ele usa PEM por omissão.***
 
 ```python
-OpenSSL> x509 -inform DER -outform PEM -in CA.cer -out CAPEM.cer
+OpenSSL> x509 -inform DER -outform PEM -in CA.cer -out sslCACert.pem
 ```
 
 - ### **Comando pkcs12**
 
 1. **Revelação da informação do Certificado como *ouput* no terminal**
 
-Este primeiro comando possibilita a visualização em modo terminal de toda a informação contida nos ficheiros em formato **.p12**. Assim, visualiza-se o Certificado, bem como informações extra acerca do email, tipo de encriptação e ainda outros atributos como o *localKeyID*.
+Este primeiro comando possibilita a visualização em modo terminal de toda a informação contida nos ficheiros em formato **.p12**. Neste caso, visualiza-se o Certificado, bem como informações extra acerca do email, tipo de encriptação e ainda outros atributos como o *localKeyID*.
 
-Além do Certificado, se formos mais além na introdução da *passphrase*, conseguimos também visualizar a Chave Privada Encriptada da entidade em causa.
+Se formos mais além na introdução da *passphrase*, conseguimos também visualizar a Chave Privada Encriptada da entidade em causa.
 
 ```python
 OpenSSL> pkcs12 -in Servidor.p12 -info
@@ -56,13 +56,37 @@ OpenSSL> pkcs12 -in Servidor.p12 -info
 
 Tal como acontece na parte da CA, pode na mesma ser extraída toda a informação que é mostrada pelo *output* do terminal, ou seja, os Certificados do Cliente e Servidor, bem como as suas Chaves Privada.
 
-A ideia passa também por guardar tudo isto em modo PEM. Assim, podemos verificar se esses Certificados foram assinados pela principal CA.cer.
+A ideia passa também por guardar tudo isto em modo PEM para que se consiga prosseguir para o passo final da verificação/validação.
 
 ```python
-OpenSSL> openssl pkcs12 -in Cliente1.p12 -clcerts -out clienteInfo.txt
-OpenSSL> openssl pkcs12 -in Servidor.p12 -clcerts -out servidorInfo.txt
+OpenSSL> pkcs12 -in Cliente1.p12 -clcerts -out sslCAServidorCert.pem
+OpenSSL> pkcs12 -in Servidor.p12 -clcerts -out sslCAClienteCert.pem
+```
+
+- ### **Comando verify**
+
+Este sub-comando foi o mais difícil de entender, dado que existem um conjunto de regras/promenores que fazem a diferença na altura de se verificar/validar os certificados em si.
+
+> *The Common Name value used for the server and client certificates/keys must each differ from the Common Name value used for the CA certificate. Otherwise, the certificate and key files will not work for servers compiled using OpenSSL.*
+
+Isto implica que os nomes dados aos ficheiros no formato **.pem** gerados anteriormente tenham um nome diferente do que é considerado o *Common Name value*.
+
+**Dessa forma, foram dedicado os seguintes nomes:**
+
+1. **Certificado CA**: sslCACert.pem
+2. **Certificado Servidor**: sslCAServidorCert.pem
+3. **Certificado Cliente**: sslCAClienteCert.pem
+
+Estando estes ficheiros criados, pode-se executar o comando de verificação e perceber que o Certificado do Cliente e Servidor foram assinados pelo Certificado principal CA.
+
+```python
+OpenSSL> verify -CAfile sslCACert.pem sslCAServidoCert.pem sslCAClienteCert.pem
 ```
 
 ---
 
 ## Observações Finais
+
+O comando ```verify``` foi o mais difícil de entender, tendo em conta que era necessário atentar em alguns detalhes. 
+
+Os outros dois foram relativamente simples pela simples recorrência ao "manual"  existente para cada um deles. 
