@@ -37,7 +37,7 @@ Outra coisa que pode ser feita é a transformação da CA para o modo PEM, o que
 ***Esta conversão é importante, dado que estamos a trabalhar com openSSL e ele usa PEM por omissão.***
 
 ```python
-OpenSSL> x509 -inform DER -outform PEM -in CA.cer -out sslCACert.pem
+OpenSSL> x509 -inform DER -outform PEM -in CA.cer -out CACert.pem
 ```
 
 - ### **Comando pkcs12**
@@ -59,8 +59,8 @@ Tal como acontece na parte da CA, pode na mesma ser extraída toda a informaçã
 A ideia passa também por guardar tudo isto em modo PEM para que se consiga prosseguir para o passo final da verificação/validação.
 
 ```python
-OpenSSL> pkcs12 -in Cliente1.p12 -clcerts -out sslCAServidorCert.pem
-OpenSSL> pkcs12 -in Servidor.p12 -clcerts -out sslCAClienteCert.pem
+OpenSSL> pkcs12 -in Cliente1.p12 -clcerts -out ServidorCert.pem
+OpenSSL> pkcs12 -in Servidor.p12 -clcerts -out ClienteCert.pem
 ```
 
 - ### **Comando verify**
@@ -80,7 +80,7 @@ Isto implica que os nomes dados aos ficheiros no formato **.pem** gerados anteri
 Estando estes ficheiros criados, pode-se executar o comando de verificação e perceber que o Certificado do Cliente e Servidor foram assinados pelo Certificado principal CA.
 
 ```python
-OpenSSL> verify -CAfile sslCACert.pem sslCAServidoCert.pem sslCAClienteCert.pem
+OpenSSL> verify -CAfile CACert.pem ServidoCert.pem ClienteCert.pem
 ```
 
 ---
