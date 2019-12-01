@@ -62,5 +62,9 @@ def certVerify(flag):
         return False
 ```
 
-### 
+### Assinar e verificar com os certificados
+Através das chaves privadas fornecidas nas *keystores* PKCS12 pudemos utilizar o método `crypto.sign()` para assinar a mensagem do Servidor ou Cliente e também o método `crypto.verify()` para verificar se um determinado certificado assinou a mensagem pedida.
+
+
+
 ---
