@@ -1,4 +1,4 @@
-# Guião 9 -  Finalização do protocolo *StS* usando certificados
+# Guião 9 -  Finalização do protocolo *Station-to-Station* usando Certificados
 
 O protocolo *Station-to-Station* consiste numa espécie de "contrato" em termos de chave criptográfica. Baseia-se no protocolo *Diffie-Hellman*, adicionando segurança em termos de ataques intermediários.
 
