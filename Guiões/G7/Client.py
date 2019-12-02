@@ -94,7 +94,6 @@ def tcp_echo_client(loop=None):
         sharedKey = clientPrivateKey.exchange(publicKeyServer)
     else: sys.exit("Ataque Intermediário!!!")
     
-    print("LOL")
     msg = client.process(sharedKey=sharedKey)
     while msg:
         writer.write(msg)
