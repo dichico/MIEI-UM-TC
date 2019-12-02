@@ -1,4 +1,4 @@
-# Guião 9 -  Finalização do protocolo *StS* usando certificados
+# Guião 9 -  Finalização do protocolo *Station-to-Station* usando Certificados
 
 O protocolo *Station-to-Station* consiste numa espécie de "contrato" em termos de chave criptográfica. Baseia-se no protocolo *Diffie-Hellman*, adicionando segurança em termos de ataques intermediários.
 
@@ -13,17 +13,19 @@ De modo a simplificar o funcionamento do programa, foi desenvolvida um ficheiro 
 
 Nesse ficheiro adicional temos o *import* da biblioteca Python usada adicionalmente, chamada de [PyOpenSSL](https://www.pyopenssl.org/en/stable/) que nos forneceu alguns métodos fundamentais para a manipulação e leitura dos ficheiros dos certificados fornecidos pelo professor.
 
-Antes de começar a programar a melhor maneira para implementar o enunciado, utilizou-se a ferramenta *OpenSSL* na linha de comandos para converter o CA fornecido em `DER` (formato binário para guardar certificados e/ou chaves) para o formato usado mais recentemente ``PEM`.
+Antes de começar a programar a melhor maneira para implementar o enunciado, utilizou-se a ferramenta *OpenSSL* na linha de comandos para converter o CA fornecido em `DER` (formato binário para guardar certificados e/ou chaves) para o formato usado mais recentemente `PEM`.
 
 ```bash
-> openssl x509 -inform DER -outform PEM -in CA.cer -out CAPEM.cer
+> openssl x509 -inform DER -outform PEM -in CA.cer -out CertCA.cer
 ```
-### Transformação dos ficheiros para objetos *PyOpenSSL*:
+
+- ### Transformação dos ficheiros para objetos *PyOpenSSL*
+
 No ficheiro [**OpenSSLWorker.py**](https://github.com/uminho-miei-crypto/1920-G9/blob/master/Gui%C3%B5es/G9/OpenSSLWorker.py) temos a inicialização da leitura dos ficheiros fornecidos, ou seja a CA.pem (agora em formato `PEM`) e os certificados `Cliente1.p12` e `Servidor.p12` utilizando da biblioteca [PyOpenSSL](https://www.pyopenssl.org/en/stable/) os métodos `crypto.load_certificate()` e `load_pkcs12()`.
 
 ```python
 # Abertura dos vários ficheiros e transformação para instâncias do PyOpenSSL
-with open('Certificados/CA.pem', 'r') as ca_file:
+with open('Certificados/CertCA.pem', 'r') as ca_file:
     ca_pem = ca_file.read()
 ca = crypto.load_certificate(crypto.FILETYPE_PEM, ca_pem)
 
@@ -41,8 +43,10 @@ No caso do *Certificate Authority* (CA) foi colocado num objeto `X509Store` para
 store = crypto.X509Store()
 store.add_cert(ca)
 ```
-### Verificação do *chain of trust*:
-Para este método foi utilizado uma *flag*, que caso fosse 0 (Servidor) ou 1 (Cliente) verificasse através do método `verify_certificate()` se o certificado da parte envolvida foi realmente assinado pelo *issuer* mencionado, ou seja o nosso `CA.pem`.
+
+- ###  Verificação do *chain of trust*
+
+Para este método foi utilizado uma *flag*, que caso fosse 0 (Servidor) ou 1 (Cliente) verificasse através do método `verify_certificate()` se o certificado da parte envolvida foi realmente assinado pelo *issuer* mencionado, ou seja o nosso `CertCA.pem`.
 
 ```python
 def certVerify(flag):
@@ -62,10 +66,11 @@ def certVerify(flag):
         return False
 ```
 
-### Assinar e verificar com os certificados
+- ### Assinar e verificar com os certificados
+
 Através das chaves privadas fornecidas nas *keystores* PKCS12 pudemos utilizar o método `crypto.sign()` para assinar a mensagem do Servidor ou Cliente e também o método `crypto.verify()` para verificar se um determinado certificado assinou a mensagem pedida.
 
-### Exemplo destes métodos no ficheiro `Servidor.py`:
+- ### Exemplo destes métodos no ficheiro `Servidor.py`
 
 ```python
 # Verificação do chain of trust do certificado do cliente antes da verificação da assinatura.

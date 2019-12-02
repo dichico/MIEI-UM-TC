@@ -20,13 +20,13 @@ Invocando o openSSL conseguimos depois trabalhar com os seus sub-comandos. Para 
 
 1. **Revelação da informação do Certificado como *output* no terminal**
 
-```python
+```bash
 OpenSSL> x509 -in CA.cer -inform DER
 ```
 
 Ao adicionarmos ```-email``` no fim, conseguimos ainda obter a informação acerca do email da pessoa responsável pelo mesmo.
 
-```python
+```bash
 OpenSSL> x509 -in CA.cer -inform DER -email
 ```
 
@@ -36,8 +36,8 @@ Outra coisa que pode ser feita é a transformação da CA para o modo PEM, o que
 
 ***Esta conversão é importante, dado que estamos a trabalhar com PyOpenSSL e ele usa PEM por omissão.***
 
-```python
-OpenSSL> x509 -inform DER -outform PEM -in CA.cer -out sslCACert.pem
+```bash
+OpenSSL> x509 -inform DER -outform PEM -in CA.cer -out CertCA.pem
 ```
 
 - ### **Comando pkcs12**
@@ -48,7 +48,7 @@ Este primeiro comando possibilita a visualização em modo terminal de toda a in
 
 Se formos mais além na introdução da *passphrase*, conseguimos também visualizar a Chave Privada Encriptada da entidade em causa.
 
-```python
+```bash
 OpenSSL> pkcs12 -in Servidor.p12 -info
 ```
 
@@ -58,9 +58,9 @@ Tal como acontece na parte da CA, pode na mesma ser extraída toda a informaçã
 
 A ideia passa também por guardar tudo isto em modo PEM para que se consiga prosseguir para o passo final da verificação/validação.
 
-```python
-OpenSSL> pkcs12 -in Cliente1.p12 -clcerts -out sslCAServidorCert.pem
-OpenSSL> pkcs12 -in Servidor.p12 -clcerts -out sslCAClienteCert.pem
+```bash
+OpenSSL> pkcs12 -in Cliente1.p12 -clcerts -out CertServidor.pem
+OpenSSL> pkcs12 -in Servidor.p12 -clcerts -out CertCliente.pem
 ```
 
 - ### **Comando verify**
@@ -79,8 +79,8 @@ Isto implica que os nomes dados aos ficheiros no formato **.pem** gerados anteri
 
 Estando estes ficheiros criados, pode-se executar o comando de verificação e perceber que o Certificado do Cliente e Servidor foram assinados pelo Certificado principal CA.
 
-```python
-OpenSSL> verify -CAfile sslCACert.pem sslCAServidoCert.pem sslCAClienteCert.pem
+```bash
+OpenSSL> verify -CAfile CertCA.pem CertServidor.pem CertCliente.pem
 ```
 
 ---

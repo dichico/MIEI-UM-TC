@@ -84,7 +84,11 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
   
   
   
-- **Guião 9** [Finalização do protocolo StS usando certificados](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Guiões/G9)
+- **Guião 9** [Finalização do protocolo *Station-to-Station* usando Certificados](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Guiões/G9)
+
+    - Conclusão da implementação do protocolo *Station-to-Station* fazendo uso de Certificados X509.
+    - Validação dos Certificados para garantir que cada um dos intervenientes usam a chave pública correta na verificação da assinatura em si.
+
 
 ---
 
