@@ -47,13 +47,16 @@ Tendo em conta que todo o código da nossa aplicação Cliente-Servidor já esta
 ### 1. Criação de CA Root e Certificados personalizados usando OpenSSL
 
 ```bash
+# CA Root
 openssl genrsa -out chaveCA.key -aes256 -passout pass:DiCert
 openssl req -new -x509 -key chaveCA.key -out CA.pem
 
+# Servidor
 openssl genrsa -aes256 -passout pass:Server -out chaveServer.key
 openssl req -new -key chaveServer.key -out Server.csr 
 openssl x509 -req -in Server.csr -CA CA.pem -CAkey chaveCA.key -out Server.pem -CAcreateserial
 
+# Cliente
 openssl genrsa -aes256 -passout pass:Server -out chaveCliente.key
 openssl req -new -key chaveCliente.key -out Cliente.csr
 openssl x509 -req -in Cliente.csr -CA DiCert.pem -CAkey chaveCA.key -out Cliente.pem -CAcreateserial
