@@ -65,13 +65,13 @@ Repositório criado para a Unidade Curricular Tecnologia Criptográfica, do perf
 	- Conclusão da implementação do protocolo *Station-to-Station* fazendo uso de Certificados X509.
 	- Validação dos Certificados para garantir que cada um dos intervenientes usam a chave pública correta na verificação da assinatura em si.
 
-- **Guião 10** [DiCert (Aplicação Cliente-Servidor Final)](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G10)
+- **Guião 10** [*DiCert* (Aplicação Cliente-Servidor Final)](https://github.com/uminho-miei-crypto/1920-G9/tree/master/Gui%C3%B5es/G10)
 
 	- Melhoramento da aplicação Cliente e Servidor.
 	- Geração dos Certificados através do OpenSSL.
 ---
 
-## **Datas *Updates* Finais/Notas***
+## **Datas *Updates* Finais/Notas**
 
 - **Guião 1 e 2**
   - Resolução dos Guiões totalmente completa a 08 de Outubro.
