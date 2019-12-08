@@ -8,7 +8,7 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives.asymmetric import dh, rsa
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 from cryptography.hazmat.primitives.serialization import load_pem_public_key, PublicFormat, Encoding
-from OpenSSLWorker import verifySignature, signingMessage, sPrivateKey, certVerify
+from OpenSSLWorker import verifySignature, signingMessage, sPrivateKey, certVerify, verifySubject
 
 # Número primo e valor de gerador dado pelo Guião.
 P = 99494096650139337106186933977618513974146274831566768179581759037259788798151499814653951492724365471316253651463342255785311748602922458795201382445323499931625451272600173180136123245441204133515800495917242011863558721723303661523372572477211620144038809673692512025566673746993593384600667047373692203583
@@ -85,18 +85,25 @@ def handle_echo(reader, writer):
     
     # Verificação do chain of trust do certificado do cliente antes da verificação da assinatura.
     if certVerify(1):
-        print("O certificado tem a sua chain of trust correta")
+        print("O certificado tem a sua chain of trust correta.")
         
-        # Chamada da função para verificar se a mensagem recebida do Cliente foi assinada pelo mesmo, usando Chave Pública do Certificado.
-        if verifySignature(1, signature, publicKeyBytes):
-            print("A assinatura do cliente foi corretamente verificada com o seu certificado")
-            
-            publicKeyServer = load_pem_public_key(publicKeyBytes, backend=default_backend())
-            sharedKey = serverPrivateKey.exchange(publicKeyServer)
+        # Verificação da parte do Subject no certificado X509 do Cliente.
+        if verifySubject(1):
+            print("Este certificado é do subject Cliente, logo correto.")
+
+            # Chamada da função para verificar se a mensagem recebida do Cliente foi assinada pelo mesmo, usando Chave Pública do Certificado.
+            if verifySignature(1, signature, publicKeyBytes):
+                print("A assinatura do cliente foi corretamente verificada com o seu certificado.")
+                
+                publicKeyServer = load_pem_public_key(publicKeyBytes, backend=default_backend())
+                sharedKey = serverPrivateKey.exchange(publicKeyServer)
         
-        else: sys.exit("Ataque Intermediário - O cliente/certificado não assinou esta mensagem.")
-    
-    else: sys.exit("O certificado do cliente não conseguiu ser verificado no seu chain of trust (CA)")
+            else: sys.exit("Ataque Intermediário - O cliente/certificado não assinou esta mensagem.")
+        
+        else:
+            sys.exit("O certificado não é do subject Cliente.")
+
+    else: sys.exit("O certificado do Cliente não conseguiu ser verificado no seu chain of trust (CA)")
 
     data = yield from reader.read(max_msg_size)
     while True:
