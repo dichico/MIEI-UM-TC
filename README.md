@@ -118,4 +118,4 @@ Tendo em conta que este Guião apenas consistia em compreender/estudar o OpenSSL
   - Resolução e README do Guião totalmente completos a 01 de Dezembro.
 
 - **Guião 10**
-  - Resolução e README do Guião totalmente completos a 08 de Novembro.
+  - Resolução e README do Guião totalmente completos a 08 de Dezembro.
